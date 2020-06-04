@@ -214,7 +214,7 @@ public class MainFrame extends javax.swing.JFrame {
         adelantosButton.setBackground(new java.awt.Color(239, 238, 244));
         adelantosButton.setForeground(new java.awt.Color(128, 128, 131));
         adelantosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/collection.png"))); // NOI18N
-        adelantosButton.setText("ADELANT-PAG PROV");
+        adelantosButton.setText("MOV. PROVE.");
         adelantosButton.setColorHover(new java.awt.Color(204, 204, 204));
         adelantosButton.setColorNormal(new java.awt.Color(239, 238, 244));
         adelantosButton.setColorPressed(new java.awt.Color(204, 204, 204));
@@ -222,6 +222,7 @@ public class MainFrame extends javax.swing.JFrame {
         adelantosButton.setColorTextNormal(new java.awt.Color(128, 128, 131));
         adelantosButton.setColorTextPressed(new java.awt.Color(128, 128, 131));
         adelantosButton.setFocusable(false);
+        adelantosButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         adelantosButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         adelantosButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         adelantosButton.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -5,11 +5,11 @@ SELECT
 p.id, p.nombres
 ,sum(DISTINCT pm.adelanto_do) as total_adelanto_do
 ,sum(DISTINCT pm.adelanto_so) as total_adelanto_so
-,sum(DISTINCT c.saldo_do_porpagar) + sum(DISTINCT pm.porpagar_do) as total_porpagar_do
-,sum(DISTINCT c.saldo_so_porpagar) + sum(DISTINCT pm.porpagar_so) as total_porpagar_so
+,sum(DISTINCT c.saldo_do_porpagar) + sum(DISTINCT pm.cobro_do) as total_porpagar_do
+,sum(DISTINCT c.saldo_so_porpagar) + sum(DISTINCT pm.cobro_so) as total_porpagar_so
 
-,sum(DISTINCT pm.adelanto_do) - sum(DISTINCT c.saldo_do_porpagar) - sum(DISTINCT pm.porpagar_do) as saldo_do
-,sum(DISTINCT pm.adelanto_so) - sum(DISTINCT c.saldo_so_porpagar) - sum(DISTINCT pm.porpagar_so) as saldo_so
+,sum(DISTINCT pm.adelanto_do) - sum(DISTINCT c.saldo_do_porpagar) - sum(DISTINCT pm.cobro_do) as saldo_do
+,sum(DISTINCT pm.adelanto_so) - sum(DISTINCT c.saldo_so_porpagar) - sum(DISTINCT pm.cobro_so) as saldo_so
 
 FROM compra as c  
 	inner join proveedor as p on p.id = c.prove_id
@@ -26,3 +26,49 @@ SELECT
 	
 select fecha from compra 
 where strftime('%d/%m/%Y', fecha) between "31/05/2020" and "31/05/2020";
+
+
+SELECT 
+p.id, p.nombres
+, (SELECT coalesce( sum(DISTINCT adelanto_do)- sum(DISTINCT cobro_do), 0) FROM prove_mov WHERE prove_id  =p.id  )  as saldo_adelanto_do
+, (SELECT coalesce( sum(DISTINCT adelanto_so)- sum(DISTINCT cobro_so), 0) FROM prove_mov WHERE prove_id  =p.id  )  as saldo_adelanto_so
+
+, (SELECT coalesce( sum(DISTINCT saldo_do_porpagar), 0) FROM compra WHERE prove_id  =p.id  )  as total_porpagar_do
+, (SELECT coalesce( sum(DISTINCT saldo_so_porpagar), 0) FROM compra WHERE prove_id  =p.id  )  as total_porpagar_so
+
+, ((SELECT coalesce( sum(DISTINCT saldo_do_porpagar), 0) FROM compra WHERE prove_id  =p.id  ) -
+   (SELECT coalesce( sum(DISTINCT adelanto_do)- sum(DISTINCT cobro_do), 0) FROM prove_mov WHERE prove_id  =p.id))  as saldo_do
+   
+, ((SELECT coalesce( sum(DISTINCT saldo_so_porpagar), 0) FROM compra WHERE prove_id  =p.id  ) -
+   (SELECT coalesce( sum(DISTINCT adelanto_so)- sum(DISTINCT cobro_so), 0) FROM prove_mov WHERE prove_id  =p.id))  as saldo_so
+
+FROM proveedor as p  
+GROUP BY p.id, p.nombres
+
+
+SELECT 
+ sum(DISTINCT ingreso_cant_gr) as cant_gr
+,sum(DISTINCT egreso_do) as egreso_do
+,sum(DISTINCT egreso_so) as egreso_so
+,sum(DISTINCT ingreso_do) as ingreso_do
+,sum(DISTINCT ingreso_so) as ingreso_so
+,sum(DISTINCT ingreso_do)-sum(DISTINCT egreso_do) as saldo_do
+,sum(DISTINCT ingreso_so)-sum(DISTINCT egreso_so) as saldo_so
+FROM
+(
+SELECT 
+ sum(DISTINCT cant_gr) as ingreso_cant_gr
+,sum(DISTINCT total_do) - sum(DISTINCT saldo_do_porpagar) as egreso_do
+,sum(DISTINCT total_so) - sum(DISTINCT saldo_so_porpagar) as egreso_so
+,0 as ingreso_do
+,0 as ingreso_so
+FROM compra
+UNION
+SELECT 
+ 0 as cant_gr
+,sum(DISTINCT adelanto_do) as egreso_do
+,sum(DISTINCT adelanto_so) as egreso_so
+,sum(DISTINCT cobro_do) as ingreso_do
+,sum(DISTINCT cobro_so) as ingreso_so
+FROM prove_mov
+) as G

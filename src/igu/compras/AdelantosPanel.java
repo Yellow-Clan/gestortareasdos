@@ -164,7 +164,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pagarGroup = new javax.swing.ButtonGroup();
+        monedaGroup = new javax.swing.ButtonGroup();
         movGroup = new javax.swing.ButtonGroup();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -187,8 +187,8 @@ public class AdelantosPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        pagar_dolares = new javax.swing.JRadioButton();
-        pagar_soles = new javax.swing.JRadioButton();
+        moneda_dolares = new javax.swing.JRadioButton();
+        moneda_soles = new javax.swing.JRadioButton();
         prove_id = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         myJList = new javax.swing.JList<>();
@@ -198,19 +198,21 @@ public class AdelantosPanel extends javax.swing.JPanel {
         fecha = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         mov_adelanto = new javax.swing.JRadioButton();
-        mov_porpagar = new javax.swing.JRadioButton();
+        mov_cobrar = new javax.swing.JRadioButton();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         glosa = new javax.swing.JTextArea();
         saldo_do = new javax.swing.JTextField();
         saldo_so = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanel5.setBackground(new java.awt.Color(58, 159, 171));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("ADELANTOS Y PAGOS A PROVEEDORES");
+        jLabel1.setText("ADELANTOS/PAGOS Y COBROS A PROVEEDORES");
+        jLabel1.setToolTipText("");
 
         buscarField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         buscarField.addActionListener(new java.awt.event.ActionListener() {
@@ -244,7 +246,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addContainerGap(678, Short.MAX_VALUE))
+                .addContainerGap(579, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -358,7 +360,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("BUSCAR PROVEEDOR: ");
+        jLabel2.setText("PROVEEDOR: ");
 
         nombres.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         nombres.addActionListener(new java.awt.event.ActionListener() {
@@ -376,7 +378,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("FECHA \"dd/MM/yyyy\": ");
+        jLabel5.setText("FECHA: ");
         jLabel5.setToolTipText("");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -388,21 +390,21 @@ public class AdelantosPanel extends javax.swing.JPanel {
         jLabel7.setText("MONEDA: ");
         jLabel7.setToolTipText("");
 
-        pagarGroup.add(pagar_dolares);
-        pagar_dolares.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        pagar_dolares.setText("DÓLARES");
-        pagar_dolares.addActionListener(new java.awt.event.ActionListener() {
+        monedaGroup.add(moneda_dolares);
+        moneda_dolares.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        moneda_dolares.setText("DÓLARES");
+        moneda_dolares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pagar_dolaresActionPerformed(evt);
+                moneda_dolaresActionPerformed(evt);
             }
         });
 
-        pagarGroup.add(pagar_soles);
-        pagar_soles.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        pagar_soles.setText("SOLES");
-        pagar_soles.addActionListener(new java.awt.event.ActionListener() {
+        monedaGroup.add(moneda_soles);
+        moneda_soles.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        moneda_soles.setText("SOLES");
+        moneda_soles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pagar_solesActionPerformed(evt);
+                moneda_solesActionPerformed(evt);
             }
         });
 
@@ -444,19 +446,20 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
         movGroup.add(mov_adelanto);
         mov_adelanto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        mov_adelanto.setText("ADELANTAR");
+        mov_adelanto.setSelected(true);
+        mov_adelanto.setText("ADELANTO/PAGO(egreso)");
         mov_adelanto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mov_adelantoActionPerformed(evt);
             }
         });
 
-        movGroup.add(mov_porpagar);
-        mov_porpagar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        mov_porpagar.setText("PAGAR");
-        mov_porpagar.addActionListener(new java.awt.event.ActionListener() {
+        movGroup.add(mov_cobrar);
+        mov_cobrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        mov_cobrar.setText("COBRO (ingreso)");
+        mov_cobrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mov_porpagarActionPerformed(evt);
+                mov_cobrarActionPerformed(evt);
             }
         });
 
@@ -479,6 +482,8 @@ public class AdelantosPanel extends javax.swing.JPanel {
         saldo_so.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         saldo_so.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        jLabel3.setText("\"dd/MM/yyyy\"");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -487,62 +492,65 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(nuevoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(guardarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(0, 17, Short.MAX_VALUE)
+                                .addComponent(jLabel11))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(eliminarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(id)
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(fecha)
+                                            .addComponent(monto_validate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane3))
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                                .addGap(12, 12, 12)
+                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel3))))
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(saldo_do)
+                                        .addComponent(moneda_dolares, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
+                                .addGap(0, 99, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(saldo_so, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(mov_adelanto, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(13, 13, 13)
+                                        .addComponent(mov_cobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(moneda_soles, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGap(28, 28, 28)
-                                        .addComponent(monto))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(nombres))))
+                                .addComponent(nuevoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(guardarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(eliminarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(id))
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jLabel11))
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                                .addComponent(pagar_dolares)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                                                .addComponent(pagar_soles))
-                                            .addComponent(monto_validate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(fecha)
-                                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addComponent(saldo_do)
-                                                    .addComponent(mov_adelanto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                                        .addGap(0, 0, Short.MAX_VALUE)
-                                                        .addComponent(mov_porpagar))
-                                                    .addComponent(saldo_so))))))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(112, 112, 112))))
+                                        .addGap(35, 35, 35)
+                                        .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                        .addGap(74, 74, 74)
+                                        .addComponent(monto, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap())))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(prove_id)
@@ -561,7 +569,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 .addGap(11, 11, 11)
                 .addComponent(prove_id, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -572,12 +580,12 @@ public class AdelantosPanel extends javax.swing.JPanel {
                             .addComponent(monto, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(monto_validate))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(7, 7, 7)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(pagar_soles)
-                    .addComponent(pagar_dolares))
+                    .addComponent(moneda_soles)
+                    .addComponent(moneda_dolares))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -585,7 +593,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
                     .addComponent(saldo_so, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mov_porpagar)
+                    .addComponent(mov_cobrar)
                     .addComponent(mov_adelanto)
                     .addComponent(jLabel12))
                 .addGap(20, 20, 20)
@@ -595,8 +603,9 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel3))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -605,7 +614,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -740,12 +749,12 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 er.setVisible(true);
             }
 
-            if (pagar_soles.isSelected()) {
+            if (moneda_soles.isSelected()) {
                 s.setEsdolares(0);
-                if (mov_porpagar.isSelected()) {
+                if (mov_cobrar.isSelected()) {
                     s.setEsadelanto(0);
-                    s.setPorpagar_so(Double.parseDouble(monto.getText().replaceAll(",", "")));
-                    s.setPorpagar_do(0);
+                    s.setCobro_so(Double.parseDouble(monto.getText().replaceAll(",", "")));
+                    s.setCobro_do(0);
                 } else {
                     s.setEsadelanto(1);
                     s.setAdelanto_so(Double.parseDouble(monto.getText().replaceAll(",", "")));
@@ -753,10 +762,10 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 }
             } else {
                 s.setEsdolares(1);
-                if (mov_porpagar.isSelected()) {
+                if (mov_cobrar.isSelected()) {
                     s.setEsadelanto(0);
-                    s.setPorpagar_so(0);
-                    s.setPorpagar_do(Double.parseDouble(monto.getText().replaceAll(",", "")));
+                    s.setCobro_so(0);
+                    s.setCobro_do(Double.parseDouble(monto.getText().replaceAll(",", "")));
 
                 } else {
                     s.setEsadelanto(1);
@@ -808,7 +817,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
         paintTable(buscarField.getText());
     }//GEN-LAST:event_buscarFieldKeyReleased
 
-    private void pagar_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagar_dolaresActionPerformed
+    private void moneda_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_dolaresActionPerformed
         // TODO add your handling code here:
         // precio.setText(precio_do.getText());
         // saldo_porpagar.setText("");
@@ -828,9 +837,9 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 System.err.println("" + nfe);
             }
         }
-    }//GEN-LAST:event_pagar_dolaresActionPerformed
+    }//GEN-LAST:event_moneda_dolaresActionPerformed
 
-    private void pagar_solesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagar_solesActionPerformed
+    private void moneda_solesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_solesActionPerformed
         // TODO add your handling code here:
         //precio.setText(precio_so.getText());
         // saldo_porpagar.setText("");
@@ -850,7 +859,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 System.err.println("" + nfe);
             }
         }
-    }//GEN-LAST:event_pagar_solesActionPerformed
+    }//GEN-LAST:event_moneda_solesActionPerformed
 
     private void nombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombresActionPerformed
         // TODO add your handling code here:
@@ -883,7 +892,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
         monto_validate.setText("");
         if (!monto.getText().equals("")) {
             try {
-                if (pagar_soles.isSelected()) {
+                if (moneda_soles.isSelected()) {
                     // precio.setText(precio_so.getText());
                     //  double totalx = Math.round(Double.parseDouble(precio_so.getText()) * Double.parseDouble(cant_gr.getText()) * 100.0) / 100.0;
                     //  total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
@@ -891,7 +900,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
                     //   precio.setText(precio_do.getText());
                     //   double totalx = Math.round(Double.parseDouble(precio_do.getText()) * Double.parseDouble(cant_gr.getText()) * 100.0) / 100.0;
                     //   total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
-                    pagar_dolares.setSelected(true);
+                    moneda_dolares.setSelected(true);
                     mov_adelanto.setSelected(true);
                 }
                 // saldo_porpagar.setText("");
@@ -916,9 +925,9 @@ public class AdelantosPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_mov_adelantoActionPerformed
 
-    private void mov_porpagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mov_porpagarActionPerformed
+    private void mov_cobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mov_cobrarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_mov_porpagarActionPerformed
+    }//GEN-LAST:event_mov_cobrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -934,6 +943,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -947,17 +957,17 @@ public class AdelantosPanel extends javax.swing.JPanel {
     public static javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.ButtonGroup monedaGroup;
+    private javax.swing.JRadioButton moneda_dolares;
+    private javax.swing.JRadioButton moneda_soles;
     private javax.swing.JFormattedTextField monto;
     private javax.swing.JLabel monto_validate;
     private javax.swing.ButtonGroup movGroup;
     private javax.swing.JRadioButton mov_adelanto;
-    private javax.swing.JRadioButton mov_porpagar;
+    private javax.swing.JRadioButton mov_cobrar;
     private javax.swing.JList<String> myJList;
     private javax.swing.JTextField nombres;
     private igu.util.buttons.ASIconButton nuevoButton;
-    private javax.swing.ButtonGroup pagarGroup;
-    private javax.swing.JRadioButton pagar_dolares;
-    private javax.swing.JRadioButton pagar_soles;
     private javax.swing.JLabel prove_id;
     private javax.swing.JTextField saldo_do;
     private javax.swing.JTextField saldo_so;

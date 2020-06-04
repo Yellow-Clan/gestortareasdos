@@ -58,8 +58,8 @@ public class ProveMovData {
                 d.setEsadelanto(rs.getInt("esadelanto"));
                 d.setAdelanto_do(rs.getDouble("adelanto_do"));
                 d.setAdelanto_so(rs.getDouble("adelanto_so"));
-                d.setPorpagar_do(rs.getDouble("porpagar_do"));
-                d.setPorpagar_so(rs.getDouble("porpagar_so"));
+                d.setCobro_do(rs.getDouble("cobro_do"));
+                d.setCobro_so(rs.getDouble("cobro_so"));
                 d.setUser(rs.getInt("user"));
                 d.setActivo(rs.getInt("activo"));
             }
@@ -73,7 +73,7 @@ public class ProveMovData {
         int rsu = 0;
 
         String sql = "INSERT INTO prove_mov(fecha,  prove_id, prove_nom, glosa, esdolares, "
-                + "esadelanto, adelanto_do, adelanto_so, porpagar_do, porpagar_so,  "
+                + "esadelanto, adelanto_do, adelanto_so, cobro_do, cobro_so,  "
                 + "user) "
                 + "VALUES(?,?,?,?,?  ,?,?,?,?,?   ,? )";
         int i = 0;
@@ -88,8 +88,8 @@ public class ProveMovData {
             ps.setInt(++i, d.getEsadelanto());
             ps.setDouble(++i, d.getAdelanto_do());
             ps.setDouble(++i, d.getAdelanto_so());
-            ps.setDouble(++i, d.getPorpagar_do());
-            ps.setDouble(++i, d.getPorpagar_so());
+            ps.setDouble(++i, d.getCobro_do());
+            ps.setDouble(++i, d.getCobro_so());
             ps.setInt(++i, d.getUser());
             rsu = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -109,8 +109,8 @@ public class ProveMovData {
                 + "esadelanto=?, "
                 + "adelanto_do=?, "
                 + "adelanto_so=?, "
-                + "porpagar_do=?, "
-                + "porpagar_so=?, "
+                + "cobro_do=?, "
+                + "cobro_so=?, "
                 + "user=?, "
                 + "activo=?, "
                 + "last_updated=? "
@@ -127,8 +127,8 @@ public class ProveMovData {
             ps.setInt(++i, d.getEsadelanto());
             ps.setDouble(++i, d.getAdelanto_do());
             ps.setDouble(++i, d.getAdelanto_so());
-            ps.setDouble(++i, d.getPorpagar_do());
-            ps.setDouble(++i, d.getPorpagar_so());
+            ps.setDouble(++i, d.getCobro_do());
+            ps.setDouble(++i, d.getCobro_so());
             ps.setInt(++i, d.getUser());
             ps.setInt(++i, d.getActivo());
             ps.setString(++i, sdf.format(dt));
@@ -188,8 +188,8 @@ public class ProveMovData {
                 d.setEsadelanto(rs.getInt("esadelanto"));
                 d.setAdelanto_do(rs.getDouble("adelanto_do"));
                 d.setAdelanto_so(rs.getDouble("adelanto_so"));
-                d.setPorpagar_do(rs.getDouble("porpagar_do"));
-                d.setPorpagar_so(rs.getDouble("porpagar_so"));
+                d.setCobro_do(rs.getDouble("cobro_do"));
+                d.setCobro_so(rs.getDouble("cobro_so"));
                 d.setUser(rs.getInt("user"));
                 d.setActivo(rs.getInt("activo"));
                 ls.add(d);

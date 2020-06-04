@@ -30,11 +30,12 @@ public class ProveSaldoReport {
         ProveSaldo d = new ProveSaldo();
         String sql = "SELECT "
                 +"p.id, p.nombres "
-                +",sum(DISTINCT pm.adelanto_do) - sum(DISTINCT c.saldo_do_porpagar) - sum(DISTINCT pm.porpagar_do) as saldo_do "
-                +",sum(DISTINCT pm.adelanto_so) - sum(DISTINCT c.saldo_so_porpagar) - sum(DISTINCT pm.porpagar_so) as saldo_so "
-                +"FROM compra as c "
-                +"  inner join proveedor as p on p.id = c.prove_id "
-                +"  inner join prove_mov as pm on pm.prove_id = p.id "
+                +", ((SELECT coalesce( sum(DISTINCT saldo_do_porpagar), 0) FROM compra WHERE prove_id  =p.id  ) - "
+                +"   (SELECT coalesce( sum(DISTINCT adelanto_do)- sum(DISTINCT cobro_do), 0) FROM prove_mov WHERE prove_id  =p.id))  as saldo_do "
+                +", ((SELECT coalesce( sum(DISTINCT saldo_so_porpagar), 0) FROM compra WHERE prove_id  =p.id  ) - "
+                +"   (SELECT coalesce( sum(DISTINCT adelanto_so)- sum(DISTINCT cobro_so), 0) FROM prove_mov WHERE prove_id  =p.id))  as saldo_so "
+                +"FROM proveedor as p   "
+              
                 +"WHERE p.id = '" + id + "'"
                 +"GROUP BY p.id, p.nombres ";
         try {

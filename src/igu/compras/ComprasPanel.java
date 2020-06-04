@@ -15,6 +15,8 @@ import java.io.IOException;
 import igu.util.tables.ExportarExcel;
 import entites.Proveedor;
 import entites.views.ProveSaldo;
+import igu.princ.CambiaPanel;
+import static igu.princ.MainFrame.pnlPrincipal;
 import igu.princ.Validate;
 import igu.util.alerts.ConfirmDialog;
 import igu.util.alerts.ErrorAlert;
@@ -184,7 +186,7 @@ public class ComprasPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pagarGroup = new javax.swing.ButtonGroup();
+        monedaGroup = new javax.swing.ButtonGroup();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -223,8 +225,8 @@ public class ComprasPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        pagar_dolares = new javax.swing.JRadioButton();
-        pagar_soles = new javax.swing.JRadioButton();
+        moneda_dolares = new javax.swing.JRadioButton();
+        moneda_soles = new javax.swing.JRadioButton();
         prove_id = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         myJList = new javax.swing.JList<>();
@@ -242,6 +244,9 @@ public class ComprasPanel extends javax.swing.JPanel {
         saldo_do = new javax.swing.JTextField();
         saldo_so = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jPanel5.setBackground(new java.awt.Color(58, 159, 171));
 
@@ -567,7 +572,7 @@ public class ComprasPanel extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("FECHA \"dd/MM/yyyy\": ");
+        jLabel5.setText("FECHA : ");
         jLabel5.setToolTipText("");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -583,21 +588,21 @@ public class ComprasPanel extends javax.swing.JPanel {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("TOTAL: ");
 
-        pagarGroup.add(pagar_dolares);
-        pagar_dolares.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        pagar_dolares.setText("DÓLARES");
-        pagar_dolares.addActionListener(new java.awt.event.ActionListener() {
+        monedaGroup.add(moneda_dolares);
+        moneda_dolares.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        moneda_dolares.setText("DÓLARES");
+        moneda_dolares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pagar_dolaresActionPerformed(evt);
+                moneda_dolaresActionPerformed(evt);
             }
         });
 
-        pagarGroup.add(pagar_soles);
-        pagar_soles.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        pagar_soles.setText("SOLES");
-        pagar_soles.addActionListener(new java.awt.event.ActionListener() {
+        monedaGroup.add(moneda_soles);
+        moneda_soles.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        moneda_soles.setText("SOLES");
+        moneda_soles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pagar_solesActionPerformed(evt);
+                moneda_solesActionPerformed(evt);
             }
         });
 
@@ -655,7 +660,9 @@ public class ComprasPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel11.setText(" A PAGAR");
+        jLabel11.setToolTipText("se descontará el adelanto en caso tuviese");
 
         pagado.setEditable(false);
         pagado.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
@@ -677,6 +684,17 @@ public class ComprasPanel extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("SALDO ACTUAL:");
 
+        jLabel19.setText("\"dd/MM/yyyy\"");
+
+        jLabel20.setText("Para cobrar deuda ir al MENÚ");
+
+        jButton1.setText("MOV. PROVE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -692,8 +710,8 @@ public class ComprasPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cant_gr, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cant_gr, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -710,26 +728,36 @@ public class ComprasPanel extends javax.swing.JPanel {
                                         .addComponent(jLabel12)
                                         .addGap(31, 31, 31)))
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cant_gr_validate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(saldo_porpagar_validate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(fecha)
                                     .addComponent(total)
+                                    .addComponent(precio)
+                                    .addComponent(cant_gr_validate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(saldo_porpagar, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(saldo_do)
-                                            .addComponent(pagar_dolares, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(moneda_dolares)
+                                            .addComponent(saldo_do, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(pagar_soles, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(saldo_so, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(precio)
-                                    .addComponent(saldo_porpagar))))
-                        .addGap(18, 18, 18)
+                                            .addComponent(moneda_soles, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(saldo_so, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(pagado, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(89, 89, 89))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(pagado, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel20)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addGap(52, 52, 52)
+                                        .addComponent(jButton1)))))
+                        .addGap(192, 192, 192))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(nuevoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -772,36 +800,48 @@ public class ComprasPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(pagar_soles)
-                    .addComponent(pagar_dolares))
+                    .addComponent(moneda_soles)
+                    .addComponent(moneda_dolares))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(saldo_do, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel12)
+                                .addComponent(saldo_so, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(saldo_do, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(saldo_porpagar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel12)
-                        .addComponent(saldo_so, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(11, 11, 11)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(pagado, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saldo_porpagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel9)
+                        .addComponent(pagado, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(7, 7, 7)
                 .addComponent(saldo_porpagar_validate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -950,7 +990,7 @@ public class ComprasPanel extends javax.swing.JPanel {
                 er.setVisible(true);
             }
 
-            if (pagar_soles.isSelected()) {
+            if (moneda_soles.isSelected()) {
                 s.setEsdolares(0);
                 s.setPrecio_so(Double.parseDouble(precio_so.getText()));
                 s.setPrecio_do(0);
@@ -1029,7 +1069,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         paintTable(buscarField.getText());
     }//GEN-LAST:event_buscarFieldKeyReleased
 
-    private void pagar_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagar_dolaresActionPerformed
+    private void moneda_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_dolaresActionPerformed
         // TODO add your handling code here:
         precio.setText(precio_do.getText());
         saldo_porpagar.setText("");
@@ -1049,9 +1089,9 @@ public class ComprasPanel extends javax.swing.JPanel {
                 System.err.println("" + nfe);
             }
         }
-    }//GEN-LAST:event_pagar_dolaresActionPerformed
+    }//GEN-LAST:event_moneda_dolaresActionPerformed
 
-    private void pagar_solesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagar_solesActionPerformed
+    private void moneda_solesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_solesActionPerformed
         // TODO add your handling code here:
         precio.setText(precio_so.getText());
         saldo_porpagar.setText("");
@@ -1071,7 +1111,7 @@ public class ComprasPanel extends javax.swing.JPanel {
                 System.err.println("" + nfe);
             }
         }
-    }//GEN-LAST:event_pagar_solesActionPerformed
+    }//GEN-LAST:event_moneda_solesActionPerformed
 
     private void nombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombresActionPerformed
         // TODO add your handling code here:
@@ -1130,7 +1170,7 @@ public class ComprasPanel extends javax.swing.JPanel {
 
                 if (!cant_gr.getText().equals("")) {
                     try {
-                        if (pagar_soles.isSelected()) {
+                        if (moneda_soles.isSelected()) {
                             precio.setText(precio_so.getText());
                             double totalx = Math.round(Double.parseDouble(precio_so.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
                             total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
@@ -1138,7 +1178,7 @@ public class ComprasPanel extends javax.swing.JPanel {
                             precio.setText(precio_do.getText());
                             double totalx = Math.round(Double.parseDouble(precio_do.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
                             total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
-                            pagar_dolares.setSelected(true);
+                            moneda_dolares.setSelected(true);
                         }
                     } catch (NumberFormatException nfe) {
                         System.err.println("" + nfe);
@@ -1173,7 +1213,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         cant_gr_validate.setText("");
         if (!cant_gr.getText().equals("")) {
             try {
-                if (pagar_soles.isSelected()) {
+                if (moneda_soles.isSelected()) {
                     precio.setText(precio_so.getText());
                     double totalx = Math.round(Double.parseDouble(precio_so.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
                     total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
@@ -1181,7 +1221,7 @@ public class ComprasPanel extends javax.swing.JPanel {
                     precio.setText(precio_do.getText());
                     double totalx = Math.round(Double.parseDouble(precio_do.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
                     total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
-                    pagar_dolares.setSelected(true);
+                    moneda_dolares.setSelected(true);
                 }
                 saldo_porpagar.setText("");
                 pagado.setText("");
@@ -1210,6 +1250,11 @@ public class ComprasPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_saldo_porpagarKeyTyped
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new CambiaPanel(pnlPrincipal, new AdelantosPanel());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private igu.util.buttons.ASIconButton aSIconButton1;
@@ -1221,6 +1266,7 @@ public class ComprasPanel extends javax.swing.JPanel {
     private javax.swing.JTextField fecha;
     private igu.util.buttons.ASIconButton guardarButton;
     private javax.swing.JLabel id;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1231,7 +1277,9 @@ public class ComprasPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1249,14 +1297,14 @@ public class ComprasPanel extends javax.swing.JPanel {
     public static javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField ley;
+    private javax.swing.ButtonGroup monedaGroup;
+    private javax.swing.JRadioButton moneda_dolares;
+    private javax.swing.JRadioButton moneda_soles;
     private javax.swing.JList<String> myJList;
     private javax.swing.JTextField nombres;
     private igu.util.buttons.ASIconButton nuevoButton;
     private javax.swing.JTextField onza;
     private javax.swing.JFormattedTextField pagado;
-    private javax.swing.ButtonGroup pagarGroup;
-    private javax.swing.JRadioButton pagar_dolares;
-    private javax.swing.JRadioButton pagar_soles;
     private javax.swing.JTextField porc;
     private javax.swing.JTextField precio;
     private javax.swing.JTextField precio_do;

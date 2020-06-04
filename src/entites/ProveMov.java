@@ -22,8 +22,8 @@ public class ProveMov {
     private int esadelanto;
     private double adelanto_do;
     private double adelanto_so;
-    private double porpagar_do;
-    private double porpagar_so;
+    private double cobro_do;
+    private double cobro_so;
 
     private int user;
     private int activo;
@@ -102,20 +102,20 @@ public class ProveMov {
         this.adelanto_so = adelanto_so;
     }
 
-    public double getPorpagar_do() {
-        return porpagar_do;
+    public double getCobro_do() {
+        return cobro_do;
     }
 
-    public void setPorpagar_do(double porpagar_do) {
-        this.porpagar_do = porpagar_do;
+    public void setCobro_do(double cobro_do) {
+        this.cobro_do = cobro_do;
     }
 
-    public double getPorpagar_so() {
-        return porpagar_so;
+    public double getCobro_so() {
+        return cobro_so;
     }
 
-    public void setPorpagar_so(double porpagar_so) {
-        this.porpagar_so = porpagar_so;
+    public void setCobro_so(double cobro_so) {
+        this.cobro_so = cobro_so;
     }
 
     public int getUser() {
@@ -150,7 +150,5 @@ public class ProveMov {
         this.last_updated = last_updated;
     }
 
-    
-
-    
+        
 }
