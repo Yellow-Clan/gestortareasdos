@@ -108,7 +108,7 @@ public class PinPanel extends javax.swing.JPanel {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         pin_validate.setText("");
-        User d = UserData.getByPin(pin.getText());
+        User d = UserData.getByPin(pin.getText(), "1");
         if (d.getId() > 0) {
             Validate.userId = d.getId();
             Validate.isPin = true;
@@ -129,7 +129,7 @@ public class PinPanel extends javax.swing.JPanel {
     private void pinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pinActionPerformed
         // TODO add your handling code here:
         pin_validate.setText("");
-        User d = UserData.getByPin(pin.getText());
+        User d = UserData.getByPin(pin.getText(), "1");
         if (d.getId() > 0) {
             Validate.userId = d.getId();
             Validate.isPin = true;

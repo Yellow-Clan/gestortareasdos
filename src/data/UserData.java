@@ -25,24 +25,27 @@ public class UserData {
     static Connection cn = Conn.connectSQLite();
     static PreparedStatement ps;
 
-    public static User getByPin(String pin) {
+    public static User getByPin(String pin, String rol) {
         User d = new User();
 
-        String sql = "SELECT * FROM user WHERE pin = '" + pin + "'";
+        String sql = "SELECT * FROM user WHERE pin = ? and  rol = ? ";
+        int i = 0;
         try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            ps = cn.prepareStatement(sql);
+            ps.setString(++i, pin);
+            ps.setString(++i, rol);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 d.setId(rs.getInt("id"));
-                d.setRol(rs.getInt("rol"));
                 d.setPin(rs.getString("pin"));
+                d.setRol(rs.getInt("rol"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return d;
     }
-
+    
     //Las siguientes funciones no son usadas
     public static int registrar(User d) {
         int rsu = 0;
@@ -118,5 +121,5 @@ public class UserData {
         }
         return ls;
     }
-
+     
 }
