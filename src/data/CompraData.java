@@ -30,7 +30,7 @@ public class CompraData {
     static Date dt = new Date();
     static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
 
-    String currentTime = sdf.format(dt);
+    static String currentTime = sdf.format(dt);
 
     public static Compra getById(int id) {
         Compra d = new Compra();
@@ -79,7 +79,7 @@ public class CompraData {
 
     public static int registrar(Compra d) {
         int rsu = 0;
-
+        String[] returnId = {"id"};
         String sql = "INSERT INTO compra(fecha,  prove_id, prove_nom, cant_gr, esdolares, "
                 + "onza, porc, ley, sistema, tcambio, "
                 + "precio_do, precio_so, total_do, total_so, saldo_do_porpagar, "
@@ -89,7 +89,7 @@ public class CompraData {
         int i = 0;
         try {
             String fecha = sdf.format(d.getFecha());
-            ps = cn.prepareStatement(sql);
+            ps = cn.prepareStatement(sql, returnId);
             ps.setString(++i, fecha);
             ps.setInt(++i, d.getProve_id());
             ps.setString(++i, d.getProve_nom());
@@ -110,6 +110,14 @@ public class CompraData {
             ps.setDouble(++i, d.getSaldo_so_porpagar());
             ps.setInt(++i, d.getUser());
             rsu = ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    rsu = rs.getInt(1);
+                    System.out.println("rs.getInt(1): "+rsu);
+                }
+                rs.close();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CompraData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -185,15 +193,27 @@ public class CompraData {
         return rsu;
     }
 
-    public static List<Compra> list(String busca) {
+    public static List<Compra> list(Date fecha, String busca) {
+        String fechat = null;
+        if (fecha == null) {
+            System.out.println("list.fechat: SIN FECHAAA");
+            fechat = currentTime;
+        } else {
+            fechat = sdf.format(fecha);
+        }
+        System.out.println("list.fechat:" + fechat);
+
         List<Compra> ls = new ArrayList<Compra>();
         String sql = "";
         if (busca.equals("")) {
-            sql = "SELECT * FROM compra ORDER BY id";
+            sql = "SELECT * FROM compra "
+                    + "WHERE strftime('%Y-%m-%d', fecha) = strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
         } else {
-            sql = "SELECT * FROM compra WHERE (id LIKE'" + busca + "%' OR "
-                    + "fecha LIKE'" + busca + "%' OR cant_gr LIKE'" + busca + "%' OR "
+            sql = "SELECT * FROM compra WHERE (id LIKE'" + busca + "%'  "
+                    + " OR prove_nom LIKE'" + busca + "%' OR "
                     + "id LIKE'" + busca + "%') "
+                    + " AND strftime('%Y-%m-%d', fecha) = strftime('%Y-%m-%d', '" + fechat + "') "
                     + "ORDER BY fecha";
         }
         try {
@@ -202,13 +222,12 @@ public class CompraData {
             while (rs.next()) {
                 Compra d = new Compra();
                 d.setId(rs.getInt("id"));
-                //d.setFecha(rs.getDate("fecha"));
-                String fecha = rs.getString("fecha");
-                System.out.println("list.fecha:" + fecha);
+                String fechax = rs.getString("fecha");
+                System.out.println("list.fecha:" + fechax);
                 try {
-                    Date date = sdf.parse(fecha);
-                    System.out.println("list.date:" + date);
-                    d.setFecha(date);
+                    Date datex = sdf.parse(fechax);
+                    System.out.println("list.date:" + datex);
+                    d.setFecha(datex);
                     d.setDate_created(sdf.parse(rs.getString("date_created")));
                     d.setLast_updated(sdf.parse(rs.getString("last_updated")));
                 } catch (Exception e) {

@@ -81,9 +81,11 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="127" max="32767" attributes="0"/>
+                              <Component id="fechaChooser" min="-2" pref="124" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="41" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="buscarField" min="-2" pref="229" max="-2" attributes="0"/>
@@ -109,7 +111,10 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="29" max="32767" attributes="0"/>
-                              <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jPanel7" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fechaChooser" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -409,6 +414,17 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="com.toedter.calendar.JDateChooser" name="fechaChooser">
+              <Properties>
+                <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="18" style="0"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="fechaChooserPropertyChange"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -471,13 +487,17 @@
                           <Font name="Tahoma" size="16" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="7" rowCount="4">
+                          <Table columnCount="11" rowCount="4">
                             <Column editable="false" title="N&#xba;" type="java.lang.Object"/>
                             <Column editable="false" title="ID" type="java.lang.Object"/>
                             <Column editable="false" title="NOMBRES" type="java.lang.Object"/>
-                            <Column editable="false" title="GR" type="java.lang.Object"/>
-                            <Column editable="false" title="DOLARES" type="java.lang.Object"/>
-                            <Column editable="false" title="SOLES" type="java.lang.Object"/>
+                            <Column editable="false" title="GR" type="java.lang.Double"/>
+                            <Column editable="false" title="PREC. DOL" type="java.lang.Double"/>
+                            <Column editable="false" title="PREC. SOL" type="java.lang.Double"/>
+                            <Column editable="false" title="TOTAL DOLA" type="java.lang.Double"/>
+                            <Column editable="false" title="TOTAL SO" type="java.lang.Double"/>
+                            <Column editable="false" title="PORPAGAR DO" type="java.lang.Double"/>
+                            <Column editable="false" title="PORPAGAR SOL" type="java.lang.Double"/>
                             <Column editable="false" title="FECHA" type="java.lang.Object"/>
                           </Table>
                         </Property>
@@ -569,7 +589,6 @@
                                           </Group>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="saldo_porpagar_validate" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="fecha" alignment="0" max="32767" attributes="0"/>
                                               <Component id="total" alignment="0" max="32767" attributes="0"/>
                                               <Component id="precio" alignment="0" max="32767" attributes="0"/>
                                               <Component id="cant_gr_validate" alignment="1" max="32767" attributes="0"/>
@@ -585,6 +604,7 @@
                                                       <Component id="saldo_so" alignment="1" min="-2" pref="119" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
+                                              <Component id="fecha" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -599,17 +619,17 @@
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jScrollPane2" min="-2" pref="172" max="-2" attributes="0"/>
-                                              <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jScrollPane2" pref="172" max="32767" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                                                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                                               </Group>
+                                              <Component id="jLabel20" alignment="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="192" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="nuevoButton" min="-2" pref="108" max="-2" attributes="0"/>
@@ -661,14 +681,14 @@
                               </Group>
                               <Component id="jScrollPane2" min="-2" pref="106" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="moneda_soles" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="moneda_dolares" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="moneda_soles" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="moneda_dolares" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="saldo_do" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
@@ -684,8 +704,8 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                  <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                  <Component id="jLabel20" min="-2" pref="32" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -714,12 +734,14 @@
                           <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                           <Component id="saldo_porpagar_validate" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="fecha" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                              <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="fecha" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="18" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1000,13 +1022,6 @@
                     <Property name="text" type="java.lang.String" value="."/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="fecha">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="18" style="0"/>
-                    </Property>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JTextField" name="saldo_do">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
@@ -1040,16 +1055,25 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel20">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Para cobrar deuda ir al MEN&#xda;"/>
+                    <Property name="text" type="java.lang.String" value="Para cobrar deuda/adelantos ir al MEN&#xda;"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Para cobrar deuda/adelantos ir al MEN&#xda; MOV. PROVE."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="MOV. PROVE"/>
+                    <Property name="text" type="java.lang.String" value="MOV. PROVE."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="com.toedter.calendar.JDateChooser" name="fecha">
+                  <Properties>
+                    <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="18" style="0"/>
+                    </Property>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

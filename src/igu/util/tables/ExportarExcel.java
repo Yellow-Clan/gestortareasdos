@@ -41,6 +41,7 @@ public class ExportarExcel {
                     Row fila = hoja.createRow(f);
                     for (int c = 0; c < t.getColumnCount(); c++) {
                         Cell celda = fila.createCell(c);
+                        //celda.
                         if (f == 0) {
                             celda.setCellValue(t.getColumnName(c));
                         }
@@ -52,13 +53,21 @@ public class ExportarExcel {
                     filaInicio++;
                     for (int c = 0; c < t.getColumnCount(); c++) {
                         Cell celda = fila.createCell(c);
+                        try {
+                            celda.setCellValue(Float.parseFloat((String) t.getValueAt(f, c)));
+                        } catch (NumberFormatException e1) {
+                            celda.setCellValue(String.valueOf(t.getValueAt(f, c)));
+                        }/*
                         if (t.getValueAt(f, c) instanceof Double) {
+                            System.out.println("Double: " + t.getValueAt(f, c));
+
                             celda.setCellValue(Double.parseDouble(t.getValueAt(f, c).toString()));
                         } else if (t.getValueAt(f, c) instanceof Float) {
                             celda.setCellValue(Float.parseFloat((String) t.getValueAt(f, c)));
                         } else {
+                            System.out.println("otro: " + t.getValueAt(f, c));
                             celda.setCellValue(String.valueOf(t.getValueAt(f, c)));
-                        }
+                        }*/
                     }
                 }
                 libro.write(archivo);

@@ -21,6 +21,8 @@ import igu.util.tables.EstiloTablaHeader;
 import igu.util.tables.EstiloTablaRenderer;
 import igu.util.tables.MyScrollbarUI;
 import igu.util.Config;
+import igu.util.PrintTicketera;
+import igu.util.tables.EstiloTablaFootRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
@@ -34,6 +36,8 @@ import java.util.logging.Logger;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -52,7 +56,8 @@ public class AdelantosPanel extends javax.swing.JPanel {
         initComponents();
 
         Date date_i = new Date();
-        fecha.setText(iguSDF.format(date_i));
+        fecha.setDate(date_i);
+        fechaChooser.setDate(date_i);
         nombres.requestFocus();
         prove_id.setText("");
         myJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -72,14 +77,14 @@ public class AdelantosPanel extends javax.swing.JPanel {
         paintList("");
 
         tabla.getTableHeader().setDefaultRenderer(new EstiloTablaHeader());
-        tabla.setDefaultRenderer(Object.class, new EstiloTablaRenderer());
+        tabla.setDefaultRenderer(Object.class, new EstiloTablaFootRenderer());
 
         jScrollPane1.getViewport().setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.getVerticalScrollBar().setUI(new MyScrollbarUI());
         jScrollPane1.getHorizontalScrollBar().setUI(new MyScrollbarUI());
 
         id.setText("");
-        paintTable("");
+        paintTable(fechaChooser.getDate(), "");
 
         tabla.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -88,19 +93,23 @@ public class AdelantosPanel extends javax.swing.JPanel {
                     int[] row = tabla.getSelectedRows();
                     if (row.length > 0) {
 
-                        String ids = (String) tabla.getValueAt(row[0], 1);
-                        id.setText("" + ids);
-                        String nombress = (String) tabla.getValueAt(row[0], 2);
-                        nombres.setText("" + nombress);
-                        /*
-                        String infoadics = (String) tabla.getValueAt(row[0], 3);
-                        cant_gr.setText("" + infoadics);
-                        String fechax = (String) tabla.getValueAt(row[0], 4);
-                        fecha.setText("" + fechax);
+                        id.setText("" + tabla.getValueAt(row[0], 1));
+                        if (!id.getText().equals("")) {
+                            nombres.setText("" + tabla.getValueAt(row[0], 2));
+                            glosa.setText("" + tabla.getValueAt(row[0], 3));
 
-                        System.out.println("Table element selected es: " + ids);
-                        guardarButton.setText("MODIFICAR");
-                         */
+                            try {
+                                Date datex = iguSDF.parse("" + tabla.getValueAt(row[0], 8));
+                                System.out.println("list.date:" + datex);
+                                fecha.setDate(datex);
+                            } catch (Exception de) {
+                            }
+
+                            guardarButton.setText("MODIFICAR NO SE PUEDE");
+                            guardarButton.setToolTipText("MODIFICAR NO SE PUEDE, ELIMINE Y VUELA A INGRESAR");
+                            guardarButton.setEnabled(false);
+                            guardarButton.setSelected(false);
+                        }
                     }
                 } else {
                     System.out.println("eee");
@@ -124,34 +133,88 @@ public class AdelantosPanel extends javax.swing.JPanel {
         myJList.setModel(defaultListModelValue);
     }
 
-    private void paintTable(String buscar) {
+    private void paintTable(Date date, String buscar) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        List<ProveMov> lis = ProveMovData.list(buscar);
+        List<ProveMov> lis = ProveMovData.list(date, buscar);
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        String datos[] = new String[5];
+        String datos[] = new String[9];
         int cont = 0;
+        double sadelanto_do = 0;
+        double sadelanto_so = 0;
+        double scobro_do = 0;
+        double scobro_so = 0;
+
         for (ProveMov d : lis) {
+            sadelanto_do = sadelanto_do + d.getAdelanto_do();
+            sadelanto_so = sadelanto_so + d.getAdelanto_so();
+            scobro_do = scobro_do + d.getCobro_do();
+            scobro_so = scobro_so + d.getCobro_so();
             datos[0] = ++cont + "";
             datos[1] = d.getId() + "";
             datos[2] = d.getProve_nom();
             datos[3] = d.getGlosa() + "";
-            datos[4] = iguSDF.format(d.getFecha());
+            datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getAdelanto_do());
+            datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getAdelanto_so());
+            datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getCobro_do());
+            datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getCobro_so());
+
+            datos[8] = iguSDF.format(d.getFecha());
             modelo.addRow(datos);
         }
-        tabla.getColumnModel().getColumn(0).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(2).setPreferredWidth(200);
-        tabla.getColumnModel().getColumn(3).setPreferredWidth(200);
-        tabla.getColumnModel().getColumn(4).setPreferredWidth(200);
+        datos[0] = "";
+        datos[1] = "";
+        datos[2] = "";
+        datos[3] = "SUMAS";
+        datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(sadelanto_do) + "";
+        datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(sadelanto_so) + "";
+        datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(scobro_do) + "";
+        datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(scobro_so) + "";
+        datos[8] = "";
+        modelo.addRow(datos);
+
+        tabla.getColumnModel().getColumn(0).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(0).setCellRenderer(new EstiloTablaFootRenderer("texto"));
+        tabla.getColumnModel().getColumn(1).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(1).setCellRenderer(new EstiloTablaFootRenderer("texto"));
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tabla.getColumnModel().getColumn(2).setCellRenderer(new EstiloTablaFootRenderer("texto"));
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tabla.getColumnModel().getColumn(3).setCellRenderer(new EstiloTablaFootRenderer("texto"));
+        DefaultTableCellRenderer rightRenderer = new EstiloTablaFootRenderer("numerico");
+        tabla.getColumnModel().getColumn(4).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(5).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(6).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(7).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(7).setCellRenderer(rightRenderer);
+
+        tabla.getColumnModel().getColumn(8).setPreferredWidth(10);
+        tabla.getColumnModel().getColumn(8).setCellRenderer(new EstiloTablaFootRenderer("fecha"));
+
+    }
+
+    private void limpiarSoloCampos() {
+        id.setText("");
+        prove_id.setText("");
+
+        nombres.setText("");
+        monto.setText("");
+        saldo_do.setText("");
+        saldo_so.setText("");
+        glosa.setText("");
+
+
     }
 
     private void limpiarCampos() {
         nombres.requestFocus();
         nombres.setText("");
         monto.setText("");
-        paintTable("");
+        paintTable(fechaChooser.getDate(), "");
 
     }
 
@@ -172,6 +235,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
         buscarField = new javax.swing.JTextField();
         aSIconButton4 = new igu.util.buttons.ASIconButton();
         jLabel4 = new javax.swing.JLabel();
+        fechaChooser = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -195,7 +259,6 @@ public class AdelantosPanel extends javax.swing.JPanel {
         monto_validate = new javax.swing.JLabel();
         monto = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
-        fecha = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         mov_adelanto = new javax.swing.JRadioButton();
         mov_cobrar = new javax.swing.JRadioButton();
@@ -205,6 +268,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
         saldo_do = new javax.swing.JTextField();
         saldo_so = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        fecha = new com.toedter.calendar.JDateChooser();
 
         jPanel5.setBackground(new java.awt.Color(58, 159, 171));
 
@@ -239,6 +303,14 @@ public class AdelantosPanel extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel4.setText("Buscar:");
 
+        fechaChooser.setDateFormatString("dd/MM/yyyy");
+        fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        fechaChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaChooserPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -246,9 +318,11 @@ public class AdelantosPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addContainerGap(579, Short.MAX_VALUE))
+                .addContainerGap(676, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,8 +339,9 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(fechaChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(102, 255, 102));
@@ -276,17 +351,17 @@ public class AdelantosPanel extends javax.swing.JPanel {
         tabla.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nº", "ID", "NOMBRES", "GLOSA", "DOLARES", "SOLES", "FECHA"
+                "Nº", "ID", "NOMBRES", "GLOSA", "ADELANTO DÓLAR", "ADELANTO SOL", "COBRO DÓ", "COBRO SO", "FECHA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -437,8 +512,6 @@ public class AdelantosPanel extends javax.swing.JPanel {
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText(" SALDO ACTUAL: ");
 
-        fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("MOVIMIENTO: ");
@@ -484,6 +557,9 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
         jLabel3.setText("\"dd/MM/yyyy\"");
 
+        fecha.setDateFormatString("dd/MM/yyyy");
+        fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -506,9 +582,9 @@ public class AdelantosPanel extends javax.swing.JPanel {
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(fecha)
                                             .addComponent(monto_validate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jScrollPane3))
+                                            .addComponent(jScrollPane3)
+                                            .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel6Layout.createSequentialGroup()
                                                 .addGap(12, 12, 12)
@@ -601,11 +677,12 @@ public class AdelantosPanel extends javax.swing.JPanel {
                     .addComponent(jLabel13)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel3))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel3))
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -687,6 +764,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
                         nombres.setText("");
                         monto.setText("");
                         guardarButton.setText("REGISTRAR");
+                        guardarButton.setToolTipText("REGISTRAR");
                     }
                 }
             }
@@ -698,12 +776,10 @@ public class AdelantosPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         //this.tituloLabel.setText("REGISTRAR");
         guardarButton.setText("REGISTRAR");
-        id.setText("");
-        nombres.setText("");
-        monto.setText("");
-        nombres.requestFocus();
-        prove_id.setText("");
-        //saldo_porpagar.setText("");
+        guardarButton.setToolTipText("REGISTRAR");
+        guardarButton.setEnabled(true);
+        guardarButton.setSelected(true);
+        limpiarSoloCampos();
 
 
     }//GEN-LAST:event_nuevoButtonActionPerformed
@@ -711,7 +787,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
     private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
 
         if (nombres.getText().equals("") || prove_id.getText().equals("") || monto.getText().equals("")
-                || fecha.getText().equals("")) {
+                || fecha.getDate() == null ) {
             ErrorAlert er = new ErrorAlert(new JFrame(), true);
             er.titulo.setText("OOPS...");
             er.msj.setText("FALTAN COMPLETAR CAMPOS");
@@ -719,35 +795,14 @@ public class AdelantosPanel extends javax.swing.JPanel {
             er.setVisible(true);
 
         } else {
-            boolean continuar = false;
+            boolean continuar = true;
             System.out.println("id: " + id.getText());
             ProveMov s = new ProveMov();
             s.setUser(Validate.userId);
             s.setProve_id(Integer.parseInt(prove_id.getText()));
             s.setProve_nom(nombres.getText());
             s.setGlosa(glosa.getText());
-
-            Date date = new Date();
-            String test = this.fecha.getText(); //"02/03/2020";
-            System.out.println("panel.fecha: " + test);
-            iguSDF.setLenient(false);
-            try {
-                date = iguSDF.parse(test);
-                if (!iguSDF.format(date).equals(test)) {
-                    continuar = false;
-                    throw new ParseException(test + " is not a valid format for " + Config.DEFAULT_DATE_STRING_FORMAT_PE, 0);
-                } else {
-                    continuar = true;
-                    s.setFecha(date);
-                }
-            } catch (ParseException ex1) {
-                System.out.println("panel.ParseException error: " + ex1);
-                ErrorAlert er = new ErrorAlert(new JFrame(), true);
-                er.titulo.setText("OOPS...");
-                er.msj.setText("FECHA NO VÁLIDO " + ex1);
-                er.msj1.setText("" + test + " is not a valid format for " + Config.DEFAULT_DATE_STRING_FORMAT_PE);
-                er.setVisible(true);
-            }
+            s.setFecha(fecha.getDate());
 
             if (moneda_soles.isSelected()) {
                 s.setEsdolares(0);
@@ -776,14 +831,19 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
             if (continuar) {
                 if (id.getText().equals("")) {
-                    int opcion = ProveMovData.registrar(s);
-                    if (opcion != 0) {
+                    int rid = ProveMovData.registrar(s);
+                    if (rid != 0) {
                         limpiarCampos();
                         SuccessAlert sa = new SuccessAlert(new JFrame(), true);
                         sa.titulo.setText("¡HECHO!");
                         sa.msj.setText("SE HA REGISTRADO UNA");
                         sa.msj1.setText("NUEVA COMPRA ");
                         sa.setVisible(true);
+                        
+                        System.out.println("rid=" + rid);
+                        ProveMov rc = ProveMovData.getById(rid);
+                        System.out.println("rc.getProve_nom=" + rc.getProve_nom());
+                        PrintTicketera.imp_prove_mov(rid);
                     }
                 } else {
                     s.setId(Integer.parseInt(id.getText()));
@@ -814,7 +874,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
     private void buscarFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyReleased
         // TODO add your handling code here:
-        paintTable(buscarField.getText());
+        paintTable(fechaChooser.getDate(), buscarField.getText());
     }//GEN-LAST:event_buscarFieldKeyReleased
 
     private void moneda_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_dolaresActionPerformed
@@ -929,12 +989,18 @@ public class AdelantosPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_mov_cobrarActionPerformed
 
+    private void fechaChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaChooserPropertyChange
+        // TODO add your handling code here:
+        paintTable(fechaChooser.getDate(), buscarField.getText());
+    }//GEN-LAST:event_fechaChooserPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private igu.util.buttons.ASIconButton aSIconButton4;
     private javax.swing.JTextField buscarField;
     private igu.util.buttons.ASIconButton eliminarButton;
-    private javax.swing.JTextField fecha;
+    private com.toedter.calendar.JDateChooser fecha;
+    private com.toedter.calendar.JDateChooser fechaChooser;
     private javax.swing.JTextArea glosa;
     private igu.util.buttons.ASIconButton guardarButton;
     private javax.swing.JLabel id;

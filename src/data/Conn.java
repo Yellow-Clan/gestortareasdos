@@ -13,6 +13,10 @@ import javax.swing.JOptionPane;
 
 public class Conn {
 
+
+     public static final String DEFAULT_DATE_STRING_FORMAT_PE = "dd/MM/yyyy";
+     public static final String DEFAULT_DATE_STRING_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     public static Connection connectSQLite() {
 
         Connection conn = null;

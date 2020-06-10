@@ -30,7 +30,7 @@ public class ProveMovData {
     static Date dt = new Date();
     static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
 
-    String currentTime = sdf.format(dt);
+    static String currentTime = sdf.format(dt);
 
     public static ProveMov getById(int id) {
         ProveMov d = new ProveMov();
@@ -71,7 +71,7 @@ public class ProveMovData {
 
     public static int registrar(ProveMov d) {
         int rsu = 0;
-
+        String[] returnId = {"id"};
         String sql = "INSERT INTO prove_mov(fecha,  prove_id, prove_nom, glosa, esdolares, "
                 + "esadelanto, adelanto_do, adelanto_so, cobro_do, cobro_so,  "
                 + "user) "
@@ -79,7 +79,7 @@ public class ProveMovData {
         int i = 0;
         try {
             String fecha = sdf.format(d.getFecha());
-            ps = cn.prepareStatement(sql);
+            ps = cn.prepareStatement(sql, returnId);
             ps.setString(++i, fecha);
             ps.setInt(++i, d.getProve_id());
             ps.setString(++i, d.getProve_nom());
@@ -92,6 +92,13 @@ public class ProveMovData {
             ps.setDouble(++i, d.getCobro_so());
             ps.setInt(++i, d.getUser());
             rsu = ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    rsu = rs.getInt(1);
+                    System.out.println("rs.getInt(1): " + rsu);
+                }
+                rs.close();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ProveMovData.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -153,17 +160,30 @@ public class ProveMovData {
         return rsu;
     }
 
-    public static List<ProveMov> list(String busca) {
+    public static List<ProveMov> list(Date fecha, String busca) {
+        String fechat = null;
+        if (fecha == null) {
+            System.out.println("list.fechat: SIN FECHAAA");
+            fechat = currentTime;
+        } else {
+            fechat = sdf.format(fecha);
+        }
+        System.out.println("list.fechat:" + fechat);
+
         List<ProveMov> ls = new ArrayList<ProveMov>();
         String sql = "";
         if (busca.equals("")) {
-            sql = "SELECT * FROM prove_mov ORDER BY id";
+            sql = "SELECT * FROM prove_mov "
+                    + "WHERE strftime('%Y-%m-%d', fecha) = strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
         } else {
-            sql = "SELECT * FROM prove_mov WHERE (id LIKE'" + busca + "%' OR "
-                    + "fecha LIKE'" + busca + "%' OR cant_gr LIKE'" + busca + "%' OR "
+            sql = "SELECT * FROM prove_mov WHERE (id LIKE'" + busca + "%'  "
+                    + " OR prove_nom LIKE'" + busca + "%' OR "
                     + "id LIKE'" + busca + "%') "
+                    + " AND strftime('%Y-%m-%d', fecha) = strftime('%Y-%m-%d', '" + fechat + "') "
                     + "ORDER BY fecha";
         }
+
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -171,10 +191,10 @@ public class ProveMovData {
                 ProveMov d = new ProveMov();
                 d.setId(rs.getInt("id"));
                 //d.setFecha(rs.getDate("fecha"));
-                String fecha = rs.getString("fecha");
-                System.out.println("list.fecha:" + fecha);
+                String fechax = rs.getString("fecha");
+                System.out.println("list.fecha:" + fechax);
                 try {
-                    Date date = sdf.parse(fecha);
+                    Date date = sdf.parse(fechax);
                     System.out.println("list.date:" + date);
                     d.setFecha(date);
                     d.setDate_created(sdf.parse(rs.getString("date_created")));

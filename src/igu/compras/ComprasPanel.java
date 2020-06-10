@@ -16,15 +16,16 @@ import igu.util.tables.ExportarExcel;
 import entites.Proveedor;
 import entites.views.ProveSaldo;
 import igu.princ.CambiaPanel;
-import static igu.princ.MainFrame.pnlPrincipal;
+import igu.princ.MainFrame;
 import igu.princ.Validate;
 import igu.util.alerts.ConfirmDialog;
 import igu.util.alerts.ErrorAlert;
 import igu.util.alerts.SuccessAlert;
 import igu.util.tables.EstiloTablaHeader;
-import igu.util.tables.EstiloTablaRenderer;
 import igu.util.tables.MyScrollbarUI;
 import igu.util.Config;
+import igu.util.PrintTicketera;
+import igu.util.tables.EstiloTablaFootRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.JFrame;
 import javax.swing.event.ListSelectionEvent;
@@ -38,6 +39,8 @@ import java.util.logging.Logger;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -57,7 +60,9 @@ public class ComprasPanel extends javax.swing.JPanel {
 
         paintParams(1);
         Date date_i = new Date();
-        fecha.setText(iguSDF.format(date_i));
+        //fecha.setText(iguSDF.format(date_i));
+        fecha.setDate(date_i);
+        fechaChooser.setDate(date_i);
         nombres.requestFocus();
         prove_id.setText("");
         myJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -79,14 +84,14 @@ public class ComprasPanel extends javax.swing.JPanel {
         paintList("");
 
         tabla.getTableHeader().setDefaultRenderer(new EstiloTablaHeader());
-        tabla.setDefaultRenderer(Object.class, new EstiloTablaRenderer());
+        tabla.setDefaultRenderer(Object.class, new EstiloTablaFootRenderer());
 
         jScrollPane1.getViewport().setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.getVerticalScrollBar().setUI(new MyScrollbarUI());
         jScrollPane1.getHorizontalScrollBar().setUI(new MyScrollbarUI());
 
         id.setText("");
-        paintTable("");
+        paintTable(fechaChooser.getDate(), "");
 
         tabla.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -94,20 +99,24 @@ public class ComprasPanel extends javax.swing.JPanel {
                 if (tabla.getRowCount() > 0) {
                     int[] row = tabla.getSelectedRows();
                     if (row.length > 0) {
+                        limpiarSoloCampos();
+                        id.setText("" + tabla.getValueAt(row[0], 1));
+                        if (!id.getText().equals("")) {
+                            nombres.setText("" + tabla.getValueAt(row[0], 2));
+                            cant_gr.setText("" + tabla.getValueAt(row[0], 3));
 
-                        String ids = (String) tabla.getValueAt(row[0], 1);
-                        id.setText("" + ids);
-                        String nombress = (String) tabla.getValueAt(row[0], 2);
-                        nombres.setText("" + nombress);
-                        /*
-                        String infoadics = (String) tabla.getValueAt(row[0], 3);
-                        cant_gr.setText("" + infoadics);
-                        String fechax = (String) tabla.getValueAt(row[0], 4);
-                        fecha.setText("" + fechax);
+                            try {
+                                Date datex = iguSDF.parse("" + tabla.getValueAt(row[0], 10));
+                                System.out.println("list.date:" + datex);
+                                fecha.setDate(datex);
+                            } catch (Exception de) {
+                            }
 
-                        System.out.println("Table element selected es: " + ids);
-                        guardarButton.setText("MODIFICAR");
-                         */
+                            guardarButton.setText("MODIFICAR NO SE PUEDE");
+                            guardarButton.setToolTipText("MODIFICAR NO SE PUEDE, ELIMINE Y VUELA A INGRESAR");
+                            guardarButton.setEnabled(false);
+                            guardarButton.setSelected(false);
+                        }
                     }
                 } else {
                     System.out.println("eee");
@@ -143,38 +152,99 @@ public class ComprasPanel extends javax.swing.JPanel {
         myJList.setModel(defaultListModelValue);
     }
 
-    private void paintTable(String buscar) {
+    private void paintTable(Date date, String buscar) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        List<Compra> lis = CompraData.list(buscar);
+        List<Compra> lis = CompraData.list(date, buscar);
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        String datos[] = new String[5];
+        String datos[] = new String[11];
         int cont = 0;
+        double scant_gr = 0;
+        double stotal_do = 0;
+        double stotal_so = 0;
+        double ssaldo_do_porpagar = 0;
+        double ssaldo_so_porpagar = 0;
         for (Compra d : lis) {
+            scant_gr = scant_gr + d.getCant_gr();
+            stotal_do = stotal_do + d.getTotal_do();
+            stotal_so = stotal_so + d.getTotal_so();
+            ssaldo_do_porpagar = ssaldo_do_porpagar + d.getSaldo_do_porpagar();
+            ssaldo_so_porpagar = ssaldo_so_porpagar + d.getSaldo_so_porpagar();
             datos[0] = ++cont + "";
             datos[1] = d.getId() + "";
             datos[2] = d.getProve_nom();
-            datos[3] = d.getCant_gr() + "";
-            datos[4] = iguSDF.format(d.getFecha());
+            datos[3] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getCant_gr());
+            datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPrecio_do());
+            datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPrecio_so());
+            datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_do());
+            datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_so());
+            datos[8] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_do_porpagar());
+            datos[9] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_so_porpagar());
+            datos[10] = iguSDF.format(d.getFecha());
             modelo.addRow(datos);
         }
-        tabla.getColumnModel().getColumn(0).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(2).setPreferredWidth(200);
-        tabla.getColumnModel().getColumn(3).setPreferredWidth(200);
-        tabla.getColumnModel().getColumn(4).setPreferredWidth(200);
+        datos[0] = "";
+        datos[1] = "";
+        datos[2] = "SUMAS";
+        datos[3] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(scant_gr) + "";
+        datos[4] = "";
+        datos[5] = "";
+        datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(stotal_do) + "";
+        datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(stotal_so) + "";
+        datos[8] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(ssaldo_do_porpagar) + "";
+        datos[9] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(ssaldo_so_porpagar) + "";
+        datos[10] = "";
+        modelo.addRow(datos);
+
+        // tabla.getTableHeader().setReorderingAllowed(false);
+        //tabla.setRowHeight(25);//tamaño de las celdas
+        //tabla.setGridColor(new java.awt.Color(0, 0, 0));
+        //Se define el tamaño de largo para cada columna y su contenido
+        tabla.getColumnModel().getColumn(0).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(0).setCellRenderer(new EstiloTablaFootRenderer("texto"));
+        tabla.getColumnModel().getColumn(1).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(1).setCellRenderer(new EstiloTablaFootRenderer("texto"));
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tabla.getColumnModel().getColumn(2).setCellRenderer(new EstiloTablaFootRenderer("texto"));
+        DefaultTableCellRenderer rightRenderer = new EstiloTablaFootRenderer("numerico");
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(4).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(5).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(6).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(6).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(7).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(7).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(8).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(8).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(9).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(9).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(10).setPreferredWidth(10);
+        tabla.getColumnModel().getColumn(10).setCellRenderer(new EstiloTablaFootRenderer("fecha"));
+
     }
 
-    private void limpiarCampos() {
-        nombres.requestFocus();
+    private void limpiarSoloCampos() {
+        id.setText("");
+        prove_id.setText("");
+
         nombres.setText("");
         cant_gr.setText("");
         saldo_do.setText("");
         saldo_so.setText("");
+        total.setText("");
+        saldo_porpagar.setText("");
+        pagado.setText("");
 
-        paintTable("");
+    }
 
+    private void limpiarCampos() {
+        limpiarSoloCampos();
+        paintTable(fechaChooser.getDate(), "");
+        nombres.requestFocus();
     }
 
     /**
@@ -209,6 +279,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         precio_do = new javax.swing.JTextField();
         precio_so = new javax.swing.JTextField();
+        fechaChooser = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -240,13 +311,13 @@ public class ComprasPanel extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         pagado = new javax.swing.JFormattedTextField();
         saldo_porpagar_validate = new javax.swing.JLabel();
-        fecha = new javax.swing.JTextField();
         saldo_do = new javax.swing.JTextField();
         saldo_so = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        fecha = new com.toedter.calendar.JDateChooser();
 
         jPanel5.setBackground(new java.awt.Color(58, 159, 171));
 
@@ -425,6 +496,14 @@ public class ComprasPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        fechaChooser.setDateFormatString("dd/MM/yyyy");
+        fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        fechaChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaChooserPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -436,8 +515,10 @@ public class ComprasPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                        .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -459,7 +540,9 @@ public class ComprasPanel extends javax.swing.JPanel {
                             .addComponent(jLabel4)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 29, Short.MAX_VALUE)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fechaChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -470,18 +553,25 @@ public class ComprasPanel extends javax.swing.JPanel {
         tabla.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nº", "ID", "NOMBRES", "GR", "DOLARES", "SOLES", "FECHA"
+                "Nº", "ID", "NOMBRES", "GR", "PREC. DOL", "PREC. SOL", "TOTAL DOLA", "TOTAL SO", "PORPAGAR DO", "PORPAGAR SOL", "FECHA"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -671,8 +761,6 @@ public class ComprasPanel extends javax.swing.JPanel {
         saldo_porpagar_validate.setForeground(new java.awt.Color(255, 0, 0));
         saldo_porpagar_validate.setText(".");
 
-        fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
         saldo_do.setEditable(false);
         saldo_do.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         saldo_do.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -686,14 +774,18 @@ public class ComprasPanel extends javax.swing.JPanel {
 
         jLabel19.setText("\"dd/MM/yyyy\"");
 
-        jLabel20.setText("Para cobrar deuda ir al MENÚ");
+        jLabel20.setText("Para cobrar deuda/adelantos ir al MENÚ");
+        jLabel20.setToolTipText("Para cobrar deuda/adelantos ir al MENÚ MOV. PROVE.");
 
-        jButton1.setText("MOV. PROVE");
+        jButton1.setText("MOV. PROVE.");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        fecha.setDateFormatString("dd/MM/yyyy");
+        fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -729,7 +821,6 @@ public class ComprasPanel extends javax.swing.JPanel {
                                         .addGap(31, 31, 31)))
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(saldo_porpagar_validate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(fecha)
                                     .addComponent(total)
                                     .addComponent(precio)
                                     .addComponent(cant_gr_validate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -741,7 +832,8 @@ public class ComprasPanel extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(moneda_soles, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(saldo_so, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addComponent(saldo_so, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -751,13 +843,13 @@ public class ComprasPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel20)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addGap(52, 52, 52)
-                                        .addComponent(jButton1)))))
-                        .addGap(192, 192, 192))
+                                        .addComponent(jButton1))
+                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                        .addGap(249, 249, 249))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(nuevoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -797,13 +889,13 @@ public class ComprasPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cant_gr_validate))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(moneda_soles)
-                    .addComponent(moneda_dolares))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(moneda_soles)
+                            .addComponent(moneda_dolares))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(saldo_do, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -815,8 +907,8 @@ public class ComprasPanel extends javax.swing.JPanel {
                             .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel20)
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -837,11 +929,12 @@ public class ComprasPanel extends javax.swing.JPanel {
                 .addGap(7, 7, 7)
                 .addComponent(saldo_porpagar_validate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel19))
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -920,9 +1013,9 @@ public class ComprasPanel extends javax.swing.JPanel {
                     if (opcion != 0) {
                         limpiarCampos();
                         id.setText("");
-                        nombres.setText("");
-                        cant_gr.setText("");
+
                         guardarButton.setText("REGISTRAR");
+                        guardarButton.setToolTipText("REGISTRAR");
                     }
                 }
             }
@@ -934,21 +1027,18 @@ public class ComprasPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         //this.tituloLabel.setText("REGISTRAR");
         guardarButton.setText("REGISTRAR");
-        id.setText("");
-        nombres.setText("");
-        cant_gr.setText("");
-        nombres.requestFocus();
-        prove_id.setText("");
-        saldo_porpagar.setText("");
-        saldo_do.setText("");
-        saldo_so.setText("");
+        guardarButton.setToolTipText("REGISTRAR");
+        guardarButton.setEnabled(true);
+        guardarButton.setSelected(true);
+        limpiarSoloCampos();
+
 
     }//GEN-LAST:event_nuevoButtonActionPerformed
 
     private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
 
         if (nombres.getText().equals("") || prove_id.getText().equals("") || cant_gr.getText().equals("")
-                || total.getText().equals("") || fecha.getText().equals("")
+                || total.getText().equals("") || fecha.getDate() == null
                 || tcambio.getText().equals("") || onza.getText().equals("")
                 || porc.getText().equals("") || ley.getText().equals("")
                 || sistema.getText().equals("")
@@ -960,16 +1050,17 @@ public class ComprasPanel extends javax.swing.JPanel {
             er.setVisible(true);
 
         } else {
-            boolean continuar = false;
+            //boolean continuar = false;
             System.out.println("id: " + id.getText());
             Compra s = new Compra();
             s.setUser(Validate.userId);
             s.setProve_id(Integer.parseInt(prove_id.getText()));
             s.setProve_nom(nombres.getText());
             s.setCant_gr(Double.parseDouble(cant_gr.getText().replaceAll(",", "")));
-
+            s.setFecha(fecha.getDate());
+            /*
             Date date = new Date();
-            String test = this.fecha.getText(); //"02/03/2020";
+            String test = this.fecha.getDate() + ""; //"02/03/2020";
             System.out.println("panel.fecha: " + test);
             iguSDF.setLenient(false);
             try {
@@ -988,7 +1079,7 @@ public class ComprasPanel extends javax.swing.JPanel {
                 er.msj.setText("FECHA NO VÁLIDO " + ex1);
                 er.msj1.setText("" + test + " is not a valid format for " + Config.DEFAULT_DATE_STRING_FORMAT_PE);
                 er.setVisible(true);
-            }
+            }*/
 
             if (moneda_soles.isSelected()) {
                 s.setEsdolares(0);
@@ -1026,16 +1117,24 @@ public class ComprasPanel extends javax.swing.JPanel {
             s.setSistema(Double.parseDouble(sistema.getText()));
             s.setTcambio(Double.parseDouble(tcambio.getText()));
 
-            if (continuar) {
+            if (fecha.getDate() != null) {
                 if (id.getText().equals("")) {
-                    int opcion = CompraData.registrar(s);
-                    if (opcion != 0) {
+                    int rid = CompraData.registrar(s);
+                    if (rid != 0) {
                         limpiarCampos();
                         SuccessAlert sa = new SuccessAlert(new JFrame(), true);
                         sa.titulo.setText("¡HECHO!");
                         sa.msj.setText("SE HA REGISTRADO UNA");
                         sa.msj1.setText("NUEVA COMPRA ");
                         sa.setVisible(true);
+
+                        System.out.println("rid=" + rid);
+                        Compra rc = CompraData.getById(rid);
+                        System.out.println("rc.getProve_nom=" + rc.getProve_nom());
+                        PrintTicketera.imp_compra(rid);
+
+                    } else {
+
                     }
                 } else {
                     s.setId(Integer.parseInt(id.getText()));
@@ -1066,7 +1165,7 @@ public class ComprasPanel extends javax.swing.JPanel {
 
     private void buscarFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyReleased
         // TODO add your handling code here:
-        paintTable(buscarField.getText());
+        paintTable(fechaChooser.getDate(), buscarField.getText());
     }//GEN-LAST:event_buscarFieldKeyReleased
 
     private void moneda_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_dolaresActionPerformed
@@ -1252,8 +1351,15 @@ public class ComprasPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new CambiaPanel(pnlPrincipal, new AdelantosPanel());
+        new CambiaPanel(MainFrame.pnlPrincipal, new AdelantosPanel());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void fechaChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaChooserPropertyChange
+        // TODO add your handling code here:
+        Date test = this.fechaChooser.getDate(); //"02/03/2020";
+        System.out.println("panel.fechaaaaaaaaaaaaaa: " + test);
+        paintTable(fechaChooser.getDate(), buscarField.getText());
+    }//GEN-LAST:event_fechaChooserPropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1263,7 +1369,8 @@ public class ComprasPanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField cant_gr;
     private javax.swing.JLabel cant_gr_validate;
     private igu.util.buttons.ASIconButton eliminarButton;
-    private javax.swing.JTextField fecha;
+    private com.toedter.calendar.JDateChooser fecha;
+    private com.toedter.calendar.JDateChooser fechaChooser;
     private igu.util.buttons.ASIconButton guardarButton;
     private javax.swing.JLabel id;
     private javax.swing.JButton jButton1;

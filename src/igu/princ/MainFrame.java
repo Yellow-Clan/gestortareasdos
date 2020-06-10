@@ -70,6 +70,7 @@ public class MainFrame extends javax.swing.JFrame {
         pnlPrincipal = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1089, 718));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
@@ -77,6 +78,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1089, 718));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBackground(new java.awt.Color(239, 238, 244));
@@ -93,6 +95,7 @@ public class MainFrame extends javax.swing.JFrame {
                 jPanel2MousePressed(evt);
             }
         });
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         comprasButton.setForeground(new java.awt.Color(128, 128, 131));
         comprasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/market.png"))); // NOI18N
@@ -116,6 +119,7 @@ public class MainFrame extends javax.swing.JFrame {
                 comprasButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(comprasButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 102, 81));
 
         ventasButton.setBackground(new java.awt.Color(239, 238, 244));
         ventasButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -140,6 +144,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ventasButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(ventasButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 1, 105, 81));
 
         clientesButton.setBackground(new java.awt.Color(239, 238, 244));
         clientesButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -164,6 +169,7 @@ public class MainFrame extends javax.swing.JFrame {
                 clientesButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(clientesButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(673, 1, 105, 81));
 
         ventaButton2.setBackground(new java.awt.Color(239, 238, 244));
         ventaButton2.setForeground(new java.awt.Color(128, 128, 131));
@@ -188,6 +194,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ventaButton2ActionPerformed(evt);
             }
         });
+        jPanel2.add(ventaButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(911, 14, 105, -1));
 
         proveeButton.setBackground(new java.awt.Color(239, 238, 244));
         proveeButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -212,6 +219,7 @@ public class MainFrame extends javax.swing.JFrame {
                 proveeButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(proveeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 121, 81));
 
         adelantosButton.setBackground(new java.awt.Color(239, 238, 244));
         adelantosButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -237,6 +245,7 @@ public class MainFrame extends javax.swing.JFrame {
                 adelantosButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(adelantosButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 100, 81));
 
         abricercajaButton.setBackground(new java.awt.Color(239, 238, 244));
         abricercajaButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -249,6 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
         abricercajaButton.setColorTextNormal(new java.awt.Color(128, 128, 131));
         abricercajaButton.setColorTextPressed(new java.awt.Color(128, 128, 131));
         abricercajaButton.setFocusable(false);
+        abricercajaButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         abricercajaButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         abricercajaButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         abricercajaButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -261,6 +271,7 @@ public class MainFrame extends javax.swing.JFrame {
                 abricercajaButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(abricercajaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 140, 81));
 
         shopButton.setBackground(new java.awt.Color(239, 238, 244));
         shopButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -285,46 +296,7 @@ public class MainFrame extends javax.swing.JFrame {
                 shopButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(comprasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(adelantosButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(proveeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(abricercajaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ventasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(clientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(shopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ventaButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(461, 461, 461))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(adelantosButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(proveeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ventasButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                            .addComponent(clientesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comprasButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ventaButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(abricercajaButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(shopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jPanel2.add(shopButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(794, 1, 105, 81));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -349,12 +321,14 @@ public class MainFrame extends javax.swing.JFrame {
         pnlCentro.setLayout(pnlCentroLayout);
         pnlCentroLayout.setHorizontalGroup(
             pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1478, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE)
         );
         pnlCentroLayout.setVerticalGroup(
             pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
         );
+
+        jScrollPane1.getAccessibleContext().setAccessibleName("");
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -772,11 +746,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
-     *
-     * public static void main(String args[]) { //Create and display the form
-     * java.awt.EventQueue.invokeLater(new Runnable() { public void run() { new
-     * MainFrame().setVisible(true); } }); }
      */
+     public static void main(String args[]) { //Create and display the form
+      java.awt.EventQueue.invokeLater(new Runnable() { public void run() { new
+     MainFrame().setVisible(true); } }); }
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private igu.util.buttons.ASIconButton abricercajaButton;
