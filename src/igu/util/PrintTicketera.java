@@ -129,7 +129,7 @@ public class PrintTicketera implements Printable {
         } catch (PrinterException e2) { // Handle Exception 
             System.out.println(e2);
         }
-        // }
+       //  }
     }
 
     /*
@@ -173,13 +173,13 @@ public class PrintTicketera implements Printable {
             moneda = "EN DÓLARES";
             precio = rc.getPrecio_do();
             total = rc.getTotal_do();
-            saldo_porpagar = rc.getSaldo_do_porpagar();
+            saldo_porpagar = rc.getSaldo_porpagar_do();
         }
         if (rc.getEsdolares() == 0) {
             moneda = " EN SOLES";
             precio = rc.getPrecio_so();
             total = rc.getTotal_so();
-            saldo_porpagar = rc.getSaldo_so_porpagar();
+            saldo_porpagar = rc.getSaldo_porpagar_so();
         }
         lis.add(new Fila(80, i = i + 20, "MONEDA: " + moneda));
         lis.add(new Fila(80, i = i + 20, "PRECIO: " + new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(precio)));

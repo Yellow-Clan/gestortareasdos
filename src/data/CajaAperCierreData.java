@@ -54,8 +54,8 @@ public class CajaAperCierreData {
                 d.setEsaper(rs.getInt("esaper"));
                 d.setSaldo_do(rs.getDouble("saldo_do"));
                 d.setSaldo_so(rs.getDouble("saldo_so"));
-                d.setSaldo_do_bancos(rs.getDouble("saldo_do_bancos"));
-                d.setSaldo_so_bancos(rs.getDouble("saldo_so_bancos"));
+                d.setSaldo_bancos_do(rs.getDouble("saldo_bancos_do"));
+                d.setSaldo_bancos_so(rs.getDouble("saldo_bancos_so"));
                 d.setGramos(rs.getDouble("gramos"));
                 d.setUser(rs.getInt("user"));
             }
@@ -88,8 +88,8 @@ public class CajaAperCierreData {
                 d.setEsaper(rs.getInt("esaper"));
                 d.setSaldo_do(rs.getDouble("saldo_do"));
                 d.setSaldo_so(rs.getDouble("saldo_so"));
-                d.setSaldo_do_bancos(rs.getDouble("saldo_do_bancos"));
-                d.setSaldo_so_bancos(rs.getDouble("saldo_so_bancos"));
+                d.setSaldo_bancos_do(rs.getDouble("saldo_bancos_do"));
+                d.setSaldo_bancos_so(rs.getDouble("saldo_bancos_so"));
                 d.setGramos(rs.getDouble("gramos"));
                 d.setUser(rs.getInt("user"));
             }
@@ -102,8 +102,8 @@ public class CajaAperCierreData {
     public static int registrar(CajaAperCierre d) {
         int rsu = 0;
 
-        String sql = "INSERT INTO caja_aper_cierre(fecha,  esaper, saldo_do, saldo_so, saldo_do_bancos, "
-                + "saldo_so_bancos,   " //gramos,
+        String sql = "INSERT INTO caja_aper_cierre(fecha,  esaper, saldo_do, saldo_so, saldo_bancos_do, "
+                + "saldo_bancos_so,   " //gramos,
                 + "user) "
                 + "VALUES(?,?,?,?,?  ,?,? )";
         int i = 0;
@@ -114,8 +114,8 @@ public class CajaAperCierreData {
             ps.setInt(++i, d.getEsaper());
             ps.setDouble(++i, d.getSaldo_do());
             ps.setDouble(++i, d.getSaldo_so());
-            ps.setDouble(++i, d.getSaldo_do_bancos());
-            ps.setDouble(++i, d.getSaldo_so_bancos());
+            ps.setDouble(++i, d.getSaldo_bancos_do());
+            ps.setDouble(++i, d.getSaldo_bancos_so());
             ps.setInt(++i, d.getUser());
             rsu = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -131,8 +131,8 @@ public class CajaAperCierreData {
                 + "esaper=?, "
                 + "saldo_do=?, "
                 + "saldo_so=?, "
-                + "saldo_do_bancos=?, "
-                + "saldo_so_bancos=?, "
+                + "saldo_bancos_do=?, "
+                + "saldo_bancos_so=?, "
                 + "user=?, "
                 + "last_updated=? "
                 + "WHERE id=?";
@@ -144,8 +144,8 @@ public class CajaAperCierreData {
             ps.setInt(++i, d.getEsaper());
             ps.setDouble(++i, d.getSaldo_do());
             ps.setDouble(++i, d.getSaldo_so());
-            ps.setDouble(++i, d.getSaldo_do_bancos());
-            ps.setDouble(++i, d.getSaldo_so_bancos());
+            ps.setDouble(++i, d.getSaldo_bancos_do());
+            ps.setDouble(++i, d.getSaldo_bancos_so());
             ps.setInt(++i, d.getUser());
             ps.setString(++i, sdf.format(dt));
             ps.setInt(++i, d.getId());
@@ -212,8 +212,8 @@ public class CajaAperCierreData {
                 d.setEsaper(rs.getInt("esaper"));
                 d.setSaldo_do(rs.getDouble("saldo_do"));
                 d.setSaldo_so(rs.getDouble("saldo_so"));
-                d.setSaldo_do_bancos(rs.getDouble("saldo_do_bancos"));
-                d.setSaldo_so_bancos(rs.getDouble("saldo_so_bancos"));
+                d.setSaldo_bancos_do(rs.getDouble("saldo_bancos_do"));
+                d.setSaldo_bancos_so(rs.getDouble("saldo_bancos_so"));
                 d.setGramos(rs.getDouble("gramos"));
                 d.setUser(rs.getInt("user"));
                 ls.add(d);

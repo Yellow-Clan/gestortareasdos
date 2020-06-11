@@ -35,7 +35,6 @@ public class ShopPanel extends javax.swing.JPanel {
 
     ExportarExcel obj;
 
-
     public ShopPanel() {
         initComponents();
         //AWTUtilities.setOpaque(this, false);
@@ -416,13 +415,19 @@ public class ShopPanel extends javax.swing.JPanel {
                 cd.msj1.setText("");
                 cd.setVisible(true);
                 if (cd.YES_OPTION) {
-                    int opcion = CienteData.eliminar(Integer.parseInt(this.id.getText()));
-                    if (opcion != 0) {
-                        limpiarCampos();
-                        this.id.setText("");
-                        this.nombres.setText("");
-                        this.infoadic.setText("");
-                        this.guardarButton.setText("REGISTRAR");
+                    try {
+                        int opcion = CienteData.eliminar(Integer.parseInt(this.id.getText()));
+                        if (opcion != 0) {
+                            limpiarCampos();
+                            this.id.setText("");
+                            this.guardarButton.setText("REGISTRAR");
+                        }
+                    } catch (Exception ex) {
+                        ErrorAlert er = new ErrorAlert(new JFrame(), true);
+                        er.titulo.setText("OOPS...");
+                        er.msj.setText("EL REGISTRO ESTÁ EN OTRAS TABLAS. NO SE PUDO ELIMINIAR");
+                        er.msj1.setText("" + ex.getMessage());
+                        er.setVisible(true);
                     }
                 }
             }

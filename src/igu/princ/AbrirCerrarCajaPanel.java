@@ -71,8 +71,8 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                         if (!id.getText().equals("")) {
                             saldo_do.setText("" + tabla.getValueAt(row[0], 2));
                             saldo_so.setText("" + tabla.getValueAt(row[0], 3));
-                            saldo_do_bancos.setText("" + tabla.getValueAt(row[0], 4));
-                            saldo_so_bancos.setText("" + tabla.getValueAt(row[0], 5));
+                            saldo_bancos_do.setText("" + tabla.getValueAt(row[0], 4));
+                            saldo_bancos_so.setText("" + tabla.getValueAt(row[0], 5));
                             try {
                                 Date datex = iguSDF.parse("" + tabla.getValueAt(row[0], 6));
                                 System.out.println("list.date:" + datex);
@@ -112,8 +112,8 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
 
             datos[2] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_do());
             datos[3] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_so());
-            datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_do_bancos());
-            datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_so_bancos());
+            datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_bancos_do());
+            datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_bancos_so());
             datos[6] = iguSDF.format(d.getFecha());
             modelo.addRow(datos);
         }
@@ -141,8 +141,8 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         saldo_do.requestFocus();
         saldo_do.setText("");
         saldo_so.setText("");
-        saldo_do_bancos.setText("");
-        saldo_so_bancos.setText("");
+        saldo_bancos_do.setText("");
+        saldo_bancos_so.setText("");
     }
 
     private void limpiarCampos() {
@@ -190,8 +190,8 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         saldo_so_validate2 = new javax.swing.JLabel();
         saldo_do = new javax.swing.JFormattedTextField();
         saldo_so = new javax.swing.JFormattedTextField();
-        saldo_do_bancos = new javax.swing.JFormattedTextField();
-        saldo_so_bancos = new javax.swing.JFormattedTextField();
+        saldo_bancos_do = new javax.swing.JFormattedTextField();
+        saldo_bancos_so = new javax.swing.JFormattedTextField();
         saldo_so_validate3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         abrir = new javax.swing.JRadioButton();
@@ -417,21 +417,21 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
             }
         });
 
-        saldo_do_bancos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
-        saldo_do_bancos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        saldo_do_bancos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        saldo_do_bancos.addKeyListener(new java.awt.event.KeyAdapter() {
+        saldo_bancos_do.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        saldo_bancos_do.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        saldo_bancos_do.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        saldo_bancos_do.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                saldo_do_bancosKeyTyped(evt);
+                saldo_bancos_doKeyTyped(evt);
             }
         });
 
-        saldo_so_bancos.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
-        saldo_so_bancos.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        saldo_so_bancos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        saldo_so_bancos.addKeyListener(new java.awt.event.KeyAdapter() {
+        saldo_bancos_so.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        saldo_bancos_so.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        saldo_bancos_so.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        saldo_bancos_so.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                saldo_so_bancosKeyTyped(evt);
+                saldo_bancos_soKeyTyped(evt);
             }
         });
 
@@ -485,8 +485,8 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                             .addComponent(saldo_so_validate2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(saldo_do)
                             .addComponent(saldo_so)
-                            .addComponent(saldo_do_bancos)
-                            .addComponent(saldo_so_bancos)
+                            .addComponent(saldo_bancos_do)
+                            .addComponent(saldo_bancos_so)
                             .addComponent(saldo_so_validate3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(abrir)
@@ -519,13 +519,13 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                 .addComponent(saldo_so_validate)
                 .addGap(11, 11, 11)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(saldo_do_bancos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saldo_bancos_do, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saldo_so_validate1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(saldo_so_bancos, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saldo_bancos_so, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saldo_so_validate2)
@@ -673,15 +673,15 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
             } else {
                 s.setSaldo_so(Double.parseDouble(saldo_so.getText().replaceAll(",", "")));
             }
-            if (saldo_do_bancos.getText().equals("")) {
-                s.setSaldo_do_bancos(0);
+            if (saldo_bancos_do.getText().equals("")) {
+                s.setSaldo_bancos_do(0);
             } else {
-                s.setSaldo_do_bancos(Double.parseDouble(saldo_do_bancos.getText().replaceAll(",", "")));
+                s.setSaldo_bancos_do(Double.parseDouble(saldo_bancos_do.getText().replaceAll(",", "")));
             }
-            if (saldo_so_bancos.getText().equals("")) {
-                s.setSaldo_so_bancos(0);
+            if (saldo_bancos_so.getText().equals("")) {
+                s.setSaldo_bancos_so(0);
             } else {
-                s.setSaldo_so_bancos(Double.parseDouble(saldo_so_bancos.getText().replaceAll(",", "")));
+                s.setSaldo_bancos_so(Double.parseDouble(saldo_bancos_so.getText().replaceAll(",", "")));
             }
 
             if (continuar) {
@@ -779,23 +779,23 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_saldo_soKeyTyped
 
-    private void saldo_do_bancosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saldo_do_bancosKeyTyped
+    private void saldo_bancos_doKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saldo_bancos_doKeyTyped
         // TODO add your handling code here:
         String filterStr = "0123456789.";
         char c = (char) evt.getKeyChar();
         if (filterStr.indexOf(c) < 0) {
             evt.consume();
         }
-    }//GEN-LAST:event_saldo_do_bancosKeyTyped
+    }//GEN-LAST:event_saldo_bancos_doKeyTyped
 
-    private void saldo_so_bancosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saldo_so_bancosKeyTyped
+    private void saldo_bancos_soKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saldo_bancos_soKeyTyped
         // TODO add your handling code here:
         String filterStr = "0123456789.";
         char c = (char) evt.getKeyChar();
         if (filterStr.indexOf(c) < 0) {
             evt.consume();
         }
-    }//GEN-LAST:event_saldo_so_bancosKeyTyped
+    }//GEN-LAST:event_saldo_bancos_soKeyTyped
 
     private void fechaChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaChooserPropertyChange
         // TODO add your handling code here:
@@ -830,11 +830,11 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
     public static javax.swing.JScrollPane jScrollPane1;
     private igu.util.buttons.ASIconButton nuevoButton;
     private javax.swing.ButtonGroup opeGroup;
+    private javax.swing.JFormattedTextField saldo_bancos_do;
+    private javax.swing.JFormattedTextField saldo_bancos_so;
     private javax.swing.JFormattedTextField saldo_do;
-    private javax.swing.JFormattedTextField saldo_do_bancos;
     private javax.swing.JLabel saldo_do_validate;
     private javax.swing.JFormattedTextField saldo_so;
-    private javax.swing.JFormattedTextField saldo_so_bancos;
     private javax.swing.JLabel saldo_so_validate;
     private javax.swing.JLabel saldo_so_validate1;
     private javax.swing.JLabel saldo_so_validate2;

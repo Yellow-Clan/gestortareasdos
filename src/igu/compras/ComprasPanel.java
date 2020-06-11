@@ -169,8 +169,8 @@ public class ComprasPanel extends javax.swing.JPanel {
             scant_gr = scant_gr + d.getCant_gr();
             stotal_do = stotal_do + d.getTotal_do();
             stotal_so = stotal_so + d.getTotal_so();
-            ssaldo_do_porpagar = ssaldo_do_porpagar + d.getSaldo_do_porpagar();
-            ssaldo_so_porpagar = ssaldo_so_porpagar + d.getSaldo_so_porpagar();
+            ssaldo_do_porpagar = ssaldo_do_porpagar + d.getSaldo_porpagar_do();
+            ssaldo_so_porpagar = ssaldo_so_porpagar + d.getSaldo_porpagar_so();
             datos[0] = ++cont + "";
             datos[1] = d.getId() + "";
             datos[2] = d.getProve_nom();
@@ -179,8 +179,8 @@ public class ComprasPanel extends javax.swing.JPanel {
             datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPrecio_so());
             datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_do());
             datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_so());
-            datos[8] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_do_porpagar());
-            datos[9] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_so_porpagar());
+            datos[8] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_porpagar_do());
+            datos[9] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_porpagar_so());
             datos[10] = iguSDF.format(d.getFecha());
             modelo.addRow(datos);
         }
@@ -1089,11 +1089,11 @@ public class ComprasPanel extends javax.swing.JPanel {
                 s.setTotal_do(0);
                 // saldo_porpagar
                 if (saldo_porpagar.getText().equals("")) {
-                    s.setSaldo_so_porpagar(0);
-                    s.setSaldo_do_porpagar(0);
+                    s.setSaldo_porpagar_so(0);
+                    s.setSaldo_porpagar_do(0);
                 } else {
-                    s.setSaldo_so_porpagar(Double.parseDouble(saldo_porpagar.getText().replaceAll(",", "")));
-                    s.setSaldo_do_porpagar(0);
+                    s.setSaldo_porpagar_so(Double.parseDouble(saldo_porpagar.getText().replaceAll(",", "")));
+                    s.setSaldo_porpagar_do(0);
                 }
             } else {
                 s.setEsdolares(1);
@@ -1103,11 +1103,11 @@ public class ComprasPanel extends javax.swing.JPanel {
                 s.setTotal_do(Double.parseDouble(total.getText().replaceAll(",", "")));
                 // saldo_porpagar
                 if (saldo_porpagar.getText().equals("")) {
-                    s.setSaldo_so_porpagar(0);
-                    s.setSaldo_do_porpagar(0);
+                    s.setSaldo_porpagar_so(0);
+                    s.setSaldo_porpagar_do(0);
                 } else {
-                    s.setSaldo_so_porpagar(0);
-                    s.setSaldo_do_porpagar(Double.parseDouble(saldo_porpagar.getText().replaceAll(",", "")));
+                    s.setSaldo_porpagar_so(0);
+                    s.setSaldo_porpagar_do(Double.parseDouble(saldo_porpagar.getText().replaceAll(",", "")));
                 }
             }
 

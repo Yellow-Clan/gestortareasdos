@@ -58,18 +58,22 @@ public class CienteData {
         return rsu;
     }
 
-    public static int eliminar(int id) {
+        public static int eliminar(int id) throws Exception {
         int rsu = 0;
         String sql = "DELETE FROM cliente WHERE id = ?";
         try {
             ps = cn.prepareStatement(sql);
             ps.setInt(1, id);
             rsu = ps.executeUpdate();
+
         } catch (SQLException ex) {
-            Logger.getLogger(CienteData.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(CienteData.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("NO del " + ex.toString());
+            throw new Exception("Detalle:" + ex.getMessage());
         }
         return rsu;
     }
+        
 
     public static List<Cliente> list(String busca) {
         List<Cliente> ls = new ArrayList<Cliente>();

@@ -18,8 +18,8 @@ public class CajaAperCierre {
     private int esaper;
     private double saldo_do;
     private double saldo_so;
-    private double saldo_do_bancos;
-    private double saldo_so_bancos;
+    private double saldo_bancos_do;
+    private double saldo_bancos_so;
     private double gramos;
     
     private int user;
@@ -66,20 +66,20 @@ public class CajaAperCierre {
         this.saldo_so = saldo_so;
     }
 
-    public double getSaldo_do_bancos() {
-        return saldo_do_bancos;
+    public double getSaldo_bancos_do() {
+        return saldo_bancos_do;
     }
 
-    public void setSaldo_do_bancos(double saldo_do_bancos) {
-        this.saldo_do_bancos = saldo_do_bancos;
+    public void setSaldo_bancos_do(double saldo_bancos_do) {
+        this.saldo_bancos_do = saldo_bancos_do;
     }
 
-    public double getSaldo_so_bancos() {
-        return saldo_so_bancos;
+    public double getSaldo_bancos_so() {
+        return saldo_bancos_so;
     }
 
-    public void setSaldo_so_bancos(double saldo_so_bancos) {
-        this.saldo_so_bancos = saldo_so_bancos;
+    public void setSaldo_bancos_so(double saldo_bancos_so) {
+        this.saldo_bancos_so = saldo_bancos_so;
     }
 
     public double getGramos() {
@@ -113,6 +113,8 @@ public class CajaAperCierre {
     public void setLast_updated(Date last_updated) {
         this.last_updated = last_updated;
     }
+
+  
 
     
     

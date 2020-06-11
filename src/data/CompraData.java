@@ -66,8 +66,8 @@ public class CompraData {
 
                 d.setTotal_do(rs.getDouble("total_do"));
                 d.setTotal_so(rs.getDouble("total_so"));
-                d.setSaldo_do_porpagar(rs.getDouble("saldo_do_porpagar"));
-                d.setSaldo_so_porpagar(rs.getDouble("saldo_so_porpagar"));
+                d.setSaldo_porpagar_do(rs.getDouble("saldo_porpagar_do"));
+                d.setSaldo_porpagar_so(rs.getDouble("saldo_porpagar_so"));
                 d.setUser(rs.getInt("user"));
                 d.setActivo(rs.getInt("activo"));
             }
@@ -82,8 +82,8 @@ public class CompraData {
         String[] returnId = {"id"};
         String sql = "INSERT INTO compra(fecha,  prove_id, prove_nom, cant_gr, esdolares, "
                 + "onza, porc, ley, sistema, tcambio, "
-                + "precio_do, precio_so, total_do, total_so, saldo_do_porpagar, "
-                + "saldo_so_porpagar, user "
+                + "precio_do, precio_so, total_do, total_so, saldo_porpagar_do, "
+                + "saldo_porpagar_so, user "
                 + ") "
                 + "VALUES(?,?,?,?,?  ,?,?,?,?,?   ,?,?,?,?,?  ,?,?)";
         int i = 0;
@@ -106,8 +106,8 @@ public class CompraData {
 
             ps.setDouble(++i, d.getTotal_do());
             ps.setDouble(++i, d.getTotal_so());
-            ps.setDouble(++i, d.getSaldo_do_porpagar());
-            ps.setDouble(++i, d.getSaldo_so_porpagar());
+            ps.setDouble(++i, d.getSaldo_porpagar_do());
+            ps.setDouble(++i, d.getSaldo_porpagar_so());
             ps.setInt(++i, d.getUser());
             rsu = ps.executeUpdate();
 
@@ -141,8 +141,8 @@ public class CompraData {
                 + "precio_so=?, "
                 + "total_do=?, "
                 + "total_so=?, "
-                + "saldo_do_porpagar=?, "
-                + "saldo_so_porpagar=?, "
+                + "saldo_porpagar_do=?, "
+                + "saldo_porpagar_so=?, "
                 + "user=?, "
                 + "activo=?, "
                 + "last_updated=? "
@@ -167,8 +167,8 @@ public class CompraData {
 
             ps.setDouble(++i, d.getTotal_do());
             ps.setDouble(++i, d.getTotal_so());
-            ps.setDouble(++i, d.getSaldo_do_porpagar());
-            ps.setDouble(++i, d.getSaldo_so_porpagar());
+            ps.setDouble(++i, d.getSaldo_porpagar_do());
+            ps.setDouble(++i, d.getSaldo_porpagar_so());
             ps.setInt(++i, d.getUser());
             ps.setInt(++i, d.getActivo());
             ps.setString(++i, sdf.format(dt));
@@ -247,8 +247,8 @@ public class CompraData {
 
                 d.setTotal_do(rs.getDouble("total_do"));
                 d.setTotal_so(rs.getDouble("total_so"));
-                d.setSaldo_do_porpagar(rs.getDouble("saldo_do_porpagar"));
-                d.setSaldo_so_porpagar(rs.getDouble("saldo_so_porpagar"));
+                d.setSaldo_porpagar_do(rs.getDouble("saldo_porpagar_do"));
+                d.setSaldo_porpagar_so(rs.getDouble("saldo_porpagar_so"));
                 d.setUser(rs.getInt("user"));
                 d.setActivo(rs.getInt("activo"));
                 ls.add(d);

@@ -30,9 +30,9 @@ public class ProveSaldoReport {
         ProveSaldo d = new ProveSaldo();
         String sql = "SELECT "
                 +"p.id, p.nombres "
-                +", ((SELECT coalesce( sum(DISTINCT saldo_do_porpagar), 0) FROM compra WHERE prove_id  =p.id  ) - "
+                +", ((SELECT coalesce( sum(DISTINCT saldo_porpagar_do), 0) FROM compra WHERE prove_id  =p.id  ) - "
                 +"   (SELECT coalesce( sum(DISTINCT adelanto_do)- sum(DISTINCT cobro_do), 0) FROM prove_mov WHERE prove_id  =p.id))  as saldo_do "
-                +", ((SELECT coalesce( sum(DISTINCT saldo_so_porpagar), 0) FROM compra WHERE prove_id  =p.id  ) - "
+                +", ((SELECT coalesce( sum(DISTINCT saldo_porpagar_so), 0) FROM compra WHERE prove_id  =p.id  ) - "
                 +"   (SELECT coalesce( sum(DISTINCT adelanto_so)- sum(DISTINCT cobro_so), 0) FROM prove_mov WHERE prove_id  =p.id))  as saldo_so "
                 +"FROM proveedor as p   "
               

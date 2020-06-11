@@ -30,8 +30,8 @@ public class Compra {
     
     private double total_do;
     private double total_so;
-    private double saldo_do_porpagar;
-    private double saldo_so_porpagar;
+    private double saldo_porpagar_do;
+    private double saldo_porpagar_so;
     private int user;
     private int activo;
     private Date date_created;
@@ -157,20 +157,20 @@ public class Compra {
         this.total_so = total_so;
     }
 
-    public double getSaldo_do_porpagar() {
-        return saldo_do_porpagar;
+    public double getSaldo_porpagar_do() {
+        return saldo_porpagar_do;
     }
 
-    public void setSaldo_do_porpagar(double saldo_do_porpagar) {
-        this.saldo_do_porpagar = saldo_do_porpagar;
+    public void setSaldo_porpagar_do(double saldo_porpagar_do) {
+        this.saldo_porpagar_do = saldo_porpagar_do;
     }
 
-    public double getSaldo_so_porpagar() {
-        return saldo_so_porpagar;
+    public double getSaldo_porpagar_so() {
+        return saldo_porpagar_so;
     }
 
-    public void setSaldo_so_porpagar(double saldo_so_porpagar) {
-        this.saldo_so_porpagar = saldo_so_porpagar;
+    public void setSaldo_porpagar_so(double saldo_porpagar_so) {
+        this.saldo_porpagar_so = saldo_porpagar_so;
     }
 
     public int getUser() {
@@ -205,7 +205,5 @@ public class Compra {
         this.last_updated = last_updated;
     }
 
-    
-
-   
+  
 }

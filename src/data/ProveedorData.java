@@ -29,6 +29,7 @@ public class ProveedorData {
     static PreparedStatement ps;
     static Date dt = new Date();
     static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
+
     //String fecha = sdf_p.format(d.getFecha_nac());
     public static int registrar(Proveedor d) {
         String currentTime = sdf.format(dt);
@@ -65,15 +66,15 @@ public class ProveedorData {
                 + "WHERE id=?";
         int i = 0;
         try {
-             System.out.println("actualizar.getFecha_nac:" + d.getFecha_nac());
-             String fecha = sdf.format(dt);
-             try {
+            System.out.println("actualizar.getFecha_nac:" + d.getFecha_nac());
+            String fecha = sdf.format(dt);
+            try {
                 fecha = sdf.format(d.getFecha_nac());
             } catch (Exception e) {
                 System.out.println("actualizar.getFecha_nac format:" + fecha);
             }
             System.out.println("actualizar.fecha:" + fecha);
-            
+
             ps = cn.prepareStatement(sql);
             ps.setString(++i, d.getNombres());
             ps.setString(++i, d.getInfoadic());
@@ -87,15 +88,18 @@ public class ProveedorData {
         return rsu;
     }
 
-    public static int eliminar(int id) {
+    public static int eliminar(int id) throws Exception {
         int rsu = 0;
         String sql = "DELETE FROM proveedor WHERE id = ?";
         try {
             ps = cn.prepareStatement(sql);
             ps.setInt(1, id);
             rsu = ps.executeUpdate();
+
         } catch (SQLException ex) {
-            Logger.getLogger(CienteData.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(CienteData.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("NO del " + ex.toString());
+            throw new Exception("Detalle:" + ex.getMessage());
         }
         return rsu;
     }
@@ -132,7 +136,7 @@ public class ProveedorData {
                     System.out.println("list.date_created:" + rs.getString("date_created"));
                     System.out.println("list.last_updated:" + rs.getString("last_updated"));
                     d.setLast_updated(sdf.parse(rs.getString("last_updated")));
-                    
+
                 } catch (Exception e) {
                 }
                 ls.add(d);
