@@ -92,10 +92,15 @@ public class ClientesPanel extends javax.swing.JPanel {
             datos[3] = d.getInfoadic();
             modelo.addRow(datos);
         }
-        tabla.getColumnModel().getColumn(0).setPreferredWidth(100);
-        tabla.getColumnModel().getColumn(1).setPreferredWidth(100);
+        
+        tabla.getColumnModel().getColumn(0).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(0).setCellRenderer(new EstiloTablaRenderer("texto"));
+        tabla.getColumnModel().getColumn(1).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(1).setCellRenderer(new EstiloTablaRenderer("texto"));
         tabla.getColumnModel().getColumn(2).setPreferredWidth(500);
-        tabla.getColumnModel().getColumn(3).setPreferredWidth(500);
+        tabla.getColumnModel().getColumn(2).setCellRenderer(new EstiloTablaRenderer("texto"));
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(600);
+        tabla.getColumnModel().getColumn(3).setCellRenderer(new EstiloTablaRenderer("texto"));
     }
 
     private void limpiarCampos() {
@@ -142,7 +147,7 @@ public class ClientesPanel extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("CLIENTES");
+        jLabel1.setText("BANCOS/CLIENTES");
 
         buscarField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         buscarField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -171,7 +176,7 @@ public class ClientesPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 554, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 457, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)

@@ -6,13 +6,11 @@
 package data;
 
 import entites.Proveedor;
-import igu.util.Config;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,14 +29,13 @@ public class ProveedorData {
     static PreparedStatement ps;
     static Date dt = new Date();
     static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
-    //static SimpleDateFormat sdf_p = new SimpleDateFormat(Conn.DEFAULT_DATE_STRING_FORMAT_PE);
     //String fecha = sdf_p.format(d.getFecha_nac());
     public static int registrar(Proveedor d) {
         String currentTime = sdf.format(dt);
         System.out.print("currentTime:" + currentTime);
         int rsu = 0;
-        String sql = "INSERT INTO proveedor(nombres, infoadic, fecha_nac, date_created) "
-                + "VALUES(?,?,?,?)";
+        String sql = "INSERT INTO proveedor(nombres, infoadic, fecha_nac, date_created, last_updated) "
+                + "VALUES(?,?,?,?,?)";
         int i = 0;
         try {
             System.out.print("registrar.getFecha_nac:" + d.getFecha_nac());
@@ -48,6 +45,7 @@ public class ProveedorData {
             ps.setString(++i, d.getNombres());
             ps.setString(++i, d.getInfoadic());
             ps.setString(++i, fecha);
+            ps.setString(++i, sdf.format(dt));
             ps.setString(++i, sdf.format(dt));
             rsu = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -62,8 +60,8 @@ public class ProveedorData {
         String sql = "UPDATE proveedor SET "
                 + "nombres=?, "
                 + "infoadic=?, "
-                + "fecha_nac=? "
-                //+ "last_update=? "
+                + "fecha_nac=?, "
+                + "last_updated=? "
                 + "WHERE id=?";
         int i = 0;
         try {
@@ -80,7 +78,7 @@ public class ProveedorData {
             ps.setString(++i, d.getNombres());
             ps.setString(++i, d.getInfoadic());
             ps.setString(++i, fecha);
-            //ps.setString(++i, sdf.format(dt));
+            ps.setString(++i, sdf.format(dt));
             ps.setInt(++i, d.getId());
             rsu = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -127,11 +125,14 @@ public class ProveedorData {
                 System.out.println("list.fecha:" + fecha);
                 try {
                     Date date = sdf.parse(fecha);
-                    System.out.println("list.date:" + date);
+                    System.out.println("Xlist.date:" + date);
                     d.setFecha_nac(date);
 
                     d.setDate_created(sdf.parse(rs.getString("date_created")));
+                    System.out.println("list.date_created:" + rs.getString("date_created"));
+                    System.out.println("list.last_updated:" + rs.getString("last_updated"));
                     d.setLast_updated(sdf.parse(rs.getString("last_updated")));
+                    
                 } catch (Exception e) {
                 }
                 ls.add(d);

@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -39,13 +40,15 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
 
     ExportarExcel obj;
     SimpleDateFormat iguSDF = new SimpleDateFormat(Config.DEFAULT_DATE_STRING_FORMAT_PE);
+    
 
     public AbrirCerrarCajaPanel() {
         //fecha_nac= new JFormattedTextField( iguSDF );
         initComponents();
 
         Date date_i = new Date();
-        fecha.setText(iguSDF.format(date_i));
+        fecha.setDate(date_i);
+        fechaChooser.setDate(date_i);
 
         this.tabla.getTableHeader().setDefaultRenderer(new EstiloTablaHeader());
         this.tabla.setDefaultRenderer(Object.class, new EstiloTablaRenderer());
@@ -55,7 +58,7 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         jScrollPane1.getHorizontalScrollBar().setUI(new MyScrollbarUI());
 
         this.id.setText("");
-        paintTable("");
+        paintTable(fechaChooser.getDate(), "");
 
         tabla.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -63,17 +66,26 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                 if (tabla.getRowCount() > 0) {
                     int[] row = tabla.getSelectedRows();
                     if (row.length > 0) {
-                        String ids = (String) tabla.getValueAt(row[0], 1);
-                        id.setText("" + ids);
-                        String nombress = (String) tabla.getValueAt(row[0], 2);
-                        saldo_do.setText("" + nombress);
-                        String infoadics = (String) tabla.getValueAt(row[0], 3);
-                        saldo_so.setText("" + infoadics);
-                        String fechax = (String) tabla.getValueAt(row[0], 4);
-                        fecha.setText("" + fechax);
 
-                        System.out.println("Table element selected es: " + ids);
-                        guardarButton.setText("MODIFICAR");
+                        id.setText("" + tabla.getValueAt(row[0], 1));
+                        if (!id.getText().equals("")) {
+                            saldo_do.setText("" + tabla.getValueAt(row[0], 2));
+                            saldo_so.setText("" + tabla.getValueAt(row[0], 3));
+                            saldo_do_bancos.setText("" + tabla.getValueAt(row[0], 4));
+                            saldo_so_bancos.setText("" + tabla.getValueAt(row[0], 5));
+                            try {
+                                Date datex = iguSDF.parse("" + tabla.getValueAt(row[0], 6));
+                                System.out.println("list.date:" + datex);
+                                fecha.setDate(datex);
+                            } catch (Exception de) {
+                            }
+
+                            guardarButton.setText("MODIFICAR");
+                            guardarButton.setToolTipText("MODIFICAR NO SE PUEDE, ELIMINE Y VUELA A INGRESAR");
+                            guardarButton.setEnabled(false);
+                            guardarButton.setSelected(false);
+                        }
+
                     }
                 } else {
                     System.out.println("eee");
@@ -86,34 +98,57 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
 
     }
 
-    private void paintTable(String buscar) {
+    private void paintTable(Date date, String buscar) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        List<CajaAperCierre> lis = CajaAperCierreData.list(buscar);
+        List<CajaAperCierre> lis = CajaAperCierreData.list(date, buscar);
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        String datos[] = new String[5];
+        String datos[] = new String[7];
         int cont = 0;
         for (CajaAperCierre d : lis) {
             datos[0] = ++cont + "";
             datos[1] = d.getId() + "";
-            datos[2] = iguSDF.format(d.getFecha());
-            datos[3] = d.getSaldo_do() + "";
-            datos[4] = d.getSaldo_so() + "";
+
+            datos[2] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_do());
+            datos[3] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_so());
+            datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_do_bancos());
+            datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_so_bancos());
+            datos[6] = iguSDF.format(d.getFecha());
             modelo.addRow(datos);
         }
-        tabla.getColumnModel().getColumn(0).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(2).setPreferredWidth(200);
-        tabla.getColumnModel().getColumn(3).setPreferredWidth(200);
-        tabla.getColumnModel().getColumn(4).setPreferredWidth(200);
+        tabla.getColumnModel().getColumn(0).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(0).setCellRenderer(new EstiloTablaRenderer("texto"));
+        tabla.getColumnModel().getColumn(1).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(1).setCellRenderer(new EstiloTablaRenderer("texto"));
+
+        DefaultTableCellRenderer rightRenderer = new EstiloTablaRenderer("numerico");
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(4).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(5).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+
+        tabla.getColumnModel().getColumn(6).setPreferredWidth(10);
+        tabla.getColumnModel().getColumn(6).setCellRenderer(new EstiloTablaRenderer("fecha"));
+    }
+
+    private void limpiarSoloCampos() {
+        id.setText("");
+        saldo_do.requestFocus();
+        saldo_do.setText("");
+        saldo_so.setText("");
+        saldo_do_bancos.setText("");
+        saldo_so_bancos.setText("");
     }
 
     private void limpiarCampos() {
-        this.saldo_do.requestFocus();
-        this.saldo_do.setText("");
-        this.saldo_so.setText("");
-        paintTable("");
+        limpiarSoloCampos();
+
+        paintTable(fechaChooser.getDate(), "");
 
     }
 
@@ -133,6 +168,7 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         buscarField = new javax.swing.JTextField();
         aSIconButton4 = new igu.util.buttons.ASIconButton();
         jLabel4 = new javax.swing.JLabel();
+        fechaChooser = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -146,7 +182,6 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         id = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        fecha = new javax.swing.JTextField();
         saldo_do_validate = new javax.swing.JLabel();
         saldo_so_validate = new javax.swing.JLabel();
         saldo_so_validate1 = new javax.swing.JLabel();
@@ -161,6 +196,7 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         abrir = new javax.swing.JRadioButton();
         cerrar = new javax.swing.JRadioButton();
+        fecha = new com.toedter.calendar.JDateChooser();
 
         jPanel5.setBackground(new java.awt.Color(58, 159, 171));
 
@@ -194,6 +230,14 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel4.setText("Buscar:");
 
+        fechaChooser.setDateFormatString("dd/MM/yyyy");
+        fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        fechaChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaChooserPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -201,7 +245,9 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 415, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -211,17 +257,19 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel1)
                 .addContainerGap(43, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(102, 255, 102));
@@ -237,11 +285,11 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nº", "ID", "NOMBRES", "INFORMACIÓN ADIC", "FECHA", "CREATED", "LAST UPDATE"
+                "Nº", "ID", "MONTO DÓLARES", "MONTO SOLES", "EN BANCOS DÓLARES", "EN BANCO SOLES", "FECHA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -257,14 +305,14 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -327,10 +375,6 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("FECHA \"dd/MM/yyyy\"");
         jLabel5.setToolTipText("");
-
-        fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        fecha.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        fecha.setToolTipText("");
 
         saldo_do_validate.setForeground(new java.awt.Color(204, 0, 0));
         saldo_do_validate.setText(".");
@@ -407,6 +451,9 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         cerrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         cerrar.setText("CERRAR CAJA");
 
+        fecha.setDateFormatString("dd/MM/yyyy");
+        fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -433,7 +480,6 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(saldo_do_validate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fecha)
                             .addComponent(saldo_so_validate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(saldo_so_validate1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(saldo_so_validate2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -445,7 +491,8 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(abrir)
                                 .addGap(18, 18, 18)
-                                .addComponent(cerrar)))))
+                                .addComponent(cerrar))
+                            .addComponent(fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -491,13 +538,11 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(saldo_so_validate3)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(76, Short.MAX_VALUE))
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        fecha.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -587,51 +632,32 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
 
     private void nuevoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoButtonActionPerformed
         // TODO add your handling code here:
-        //this.tituloLabel.setText("REGISTRAR");
-        this.guardarButton.setText("REGISTRAR");
-        this.id.setText("");
-        this.saldo_do.setText("");
-        this.saldo_so.setText("");
-        this.saldo_do.requestFocus();
+        guardarButton.setText("REGISTRAR");
+        guardarButton.setToolTipText("REGISTRAR");
+        guardarButton.setEnabled(true);
+        guardarButton.setSelected(true);
+        limpiarSoloCampos();
 
     }//GEN-LAST:event_nuevoButtonActionPerformed
 
     private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
 
-        if (this.saldo_do.getText().equals("")) {
+        if (this.saldo_do.getText().equals("") || this.saldo_so.getText().equals("")
+                || fecha.getDate() == null) {
             ErrorAlert er = new ErrorAlert(new JFrame(), true);
             er.titulo.setText("OOPS...");
-            er.msj.setText("FALTAN CAMPOS DE LLENAR");
+            er.msj.setText("FALTAN LLENAR CAMPOS: SALDOS DÓLARES y SOLES");
             er.msj1.setText("");
             er.setVisible(true);
 
         } else {
 
-            boolean continuar = false;
+            boolean continuar = true;
             System.out.println("id: " + id.getText());
             CajaAperCierre s = new CajaAperCierre();
             s.setUser(Validate.userId);
-            Date date = new Date();
-            String test = this.fecha.getText(); //"02/03/2020";
-            System.out.println("panel.fecha: " + test);
-            iguSDF.setLenient(false);
-            try {
-                date = iguSDF.parse(test);
-                if (!iguSDF.format(date).equals(test)) {
-                    continuar = false;
-                    throw new ParseException(test + " is not a valid format for " + Config.DEFAULT_DATE_STRING_FORMAT_PE, 0);
-                } else {
-                    continuar = true;
-                    s.setFecha(date);
-                }
-            } catch (ParseException ex1) {
-                System.out.println("panel.ParseException error: " + ex1);
-                ErrorAlert er = new ErrorAlert(new JFrame(), true);
-                er.titulo.setText("OOPS...");
-                er.msj.setText("FECHA NO VÁLIDO " + ex1);
-                er.msj1.setText("" + test + " is not a valid format for " + Config.DEFAULT_DATE_STRING_FORMAT_PE);
-                er.setVisible(true);
-            }
+            s.setFecha(fecha.getDate());
+
             if (abrir.isSelected()) {
                 s.setEsaper(1);
             } else {
@@ -664,12 +690,12 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
                 if (ver.getFecha() != null) {
                     ErrorAlert er = new ErrorAlert(new JFrame(), true);
                     er.titulo.setText("OOPS...");
-                    if (ver.getEsaper()==1 ){
-                        er.msj.setText("LA CAJA PARA " + iguSDF.format(ver.getFecha()) +" YA ESTÁ ABIERTA");
-                    }else {
-                        er.msj.setText("LA CAJA PARA " + iguSDF.format(ver.getFecha()) +" YA ESTÁ CERRADA ");
+                    if (ver.getEsaper() == 1) {
+                        er.msj.setText("LA CAJA PARA " + iguSDF.format(ver.getFecha()) + " YA ESTÁ ABIERTA");
+                    } else {
+                        er.msj.setText("LA CAJA PARA " + iguSDF.format(ver.getFecha()) + " YA ESTÁ CERRADA ");
                     }
-                    
+
                     er.msj1.setText("ELIMINE Y VUELVA A CREAR");
                     er.setVisible(true);
                 } else {
@@ -714,7 +740,7 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
     private void buscarFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyReleased
         // TODO add your handling code here:
         //Opciones.listar(this.buscarField.getText());
-        paintTable(this.buscarField.getText());
+        paintTable(fechaChooser.getDate(), this.buscarField.getText());
     }//GEN-LAST:event_buscarFieldKeyReleased
 
     private void buscarFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarFieldActionPerformed
@@ -726,7 +752,7 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         saldo_do_validate.setText("");
         if (!saldo_do.getText().equals("")) {
             try {
-                double totalx = Math.round(Double.parseDouble(saldo_do.getText()) * 100.0) / 100.0;
+                //double totalx = Math.round(Double.parseDouble(saldo_do.getText()) * 100.0) / 100.0;
                 //total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
             } catch (NumberFormatException nfe) {
                 System.err.println("" + nfe);
@@ -771,6 +797,11 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_saldo_so_bancosKeyTyped
 
+    private void fechaChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaChooserPropertyChange
+        // TODO add your handling code here:
+        paintTable(fechaChooser.getDate(), buscarField.getText());
+    }//GEN-LAST:event_fechaChooserPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private igu.util.buttons.ASIconButton aSIconButton4;
@@ -778,7 +809,8 @@ public class AbrirCerrarCajaPanel extends javax.swing.JPanel {
     private javax.swing.JTextField buscarField;
     private javax.swing.JRadioButton cerrar;
     private igu.util.buttons.ASIconButton eliminarButton;
-    private javax.swing.JTextField fecha;
+    private com.toedter.calendar.JDateChooser fecha;
+    private com.toedter.calendar.JDateChooser fechaChooser;
     private igu.util.buttons.ASIconButton guardarButton;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;

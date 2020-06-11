@@ -30,7 +30,7 @@ public class CajaAperCierreData {
     static Date dt = new Date();
     static SimpleDateFormat sdf = new SimpleDateFormat(SQLiteConfig.DEFAULT_DATE_STRING_FORMAT);
 
-    String currentTime = sdf.format(dt);
+    static String currentTime = sdf.format(dt);
 
     public static CajaAperCierre getByFechaAndEsaper(Date date, int esaper) {
         CajaAperCierre d = new CajaAperCierre();
@@ -169,15 +169,27 @@ public class CajaAperCierreData {
         return rsu;
     }
 
-    public static List<CajaAperCierre> list(String busca) {
+    public static List<CajaAperCierre> list(Date fecha, String busca) {
+        String fechat = null;
+        if (fecha == null) {
+            System.out.println("list.fechat: SIN FECHAAA");
+            fechat = currentTime;
+        } else {
+            fechat = sdf.format(fecha);
+        }
+        System.out.println("list.fechat:" + fechat);
         List<CajaAperCierre> ls = new ArrayList<CajaAperCierre>();
         String sql = "";
+        
         if (busca.equals("")) {
-            sql = "SELECT * FROM caja_aper_cierre ORDER BY id";
+            sql = "SELECT * FROM caja_aper_cierre "
+                    + "WHERE strftime('%Y-%m-%d', fecha) = strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
         } else {
-            sql = "SELECT * FROM caja_aper_cierre WHERE (id LIKE'" + busca + "%' OR "
-                    + "fecha LIKE'" + busca + "%' OR esaper LIKE'" + busca + "%' OR "
+            sql = "SELECT * FROM caja_aper_cierre WHERE (id LIKE'" + busca + "%'  "
+                    + " OR esaper LIKE'" + busca + "%' OR "
                     + "id LIKE'" + busca + "%') "
+                    + " AND strftime('%Y-%m-%d', fecha) = strftime('%Y-%m-%d', '" + fechat + "') "
                     + "ORDER BY fecha";
         }
         try {
@@ -187,10 +199,10 @@ public class CajaAperCierreData {
                 CajaAperCierre d = new CajaAperCierre();
                 d.setId(rs.getInt("id"));
                 //d.setFecha(rs.getDate("fecha"));
-                String fecha = rs.getString("fecha");
-                System.out.println("list.fecha:" + fecha);
+                String fechax = rs.getString("fecha");
+                System.out.println("list.fechax:" + fechax);
                 try {
-                    Date date = sdf.parse(fecha);
+                    Date date = sdf.parse(fechax);
                     System.out.println("list.date:" + date);
                     d.setFecha(date);
                     d.setDate_created(sdf.parse(rs.getString("date_created")));

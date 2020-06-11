@@ -117,6 +117,19 @@ public class EstiloTablaRenderer extends DefaultTableCellRenderer {
 //            return boton;
                 return label;
             }
+            
+            if (tipo.equals("fecha")) {
+                //si es tipo texto define el color de fondo del texto y de la celda así como la alineación
+                
+                this.setHorizontalAlignment(JLabel.CENTER);
+                this.setText((String) value);
+                //this.setForeground( (selected)? new Color(255,255,255) :new Color(0,0,0) );   
+                //this.setForeground( (selected)? new Color(255,255,255) :new Color(32,117,32) );
+              //  this.setBackground((selected) ? colorFondo : Color.WHITE);
+                this.setFont(normal);
+                //this.setFont(bold);
+                return this;
+            }
 
             //definie si el tipo de dato el numerico para personalizarlo
             if (tipo.equals("numerico")) {

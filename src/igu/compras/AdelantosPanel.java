@@ -18,7 +18,6 @@ import igu.util.alerts.ConfirmDialog;
 import igu.util.alerts.ErrorAlert;
 import igu.util.alerts.SuccessAlert;
 import igu.util.tables.EstiloTablaHeader;
-import igu.util.tables.EstiloTablaRenderer;
 import igu.util.tables.MyScrollbarUI;
 import igu.util.Config;
 import igu.util.PrintTicketera;
@@ -200,20 +199,18 @@ public class AdelantosPanel extends javax.swing.JPanel {
     private void limpiarSoloCampos() {
         id.setText("");
         prove_id.setText("");
-
         nombres.setText("");
         monto.setText("");
         saldo_do.setText("");
         saldo_so.setText("");
         glosa.setText("");
-
+        nombres.requestFocus();
 
     }
 
     private void limpiarCampos() {
-        nombres.requestFocus();
-        nombres.setText("");
-        monto.setText("");
+
+        limpiarSoloCampos();
         paintTable(fechaChooser.getDate(), "");
 
     }
@@ -787,7 +784,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
     private void guardarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButtonActionPerformed
 
         if (nombres.getText().equals("") || prove_id.getText().equals("") || monto.getText().equals("")
-                || fecha.getDate() == null ) {
+                || fecha.getDate() == null) {
             ErrorAlert er = new ErrorAlert(new JFrame(), true);
             er.titulo.setText("OOPS...");
             er.msj.setText("FALTAN COMPLETAR CAMPOS");
@@ -839,7 +836,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
                         sa.msj.setText("SE HA REGISTRADO UNA");
                         sa.msj1.setText("NUEVA COMPRA ");
                         sa.setVisible(true);
-                        
+
                         System.out.println("rid=" + rid);
                         ProveMov rc = ProveMovData.getById(rid);
                         System.out.println("rc.getProve_nom=" + rc.getProve_nom());

@@ -92,7 +92,7 @@ public class ProveedoresPanel extends javax.swing.JPanel {
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        String datos[] = new String[5];
+        String datos[] = new String[7];
         int cont = 0;
         for (Proveedor d : lis) {
             datos[0] = ++cont + "";
@@ -100,13 +100,24 @@ public class ProveedoresPanel extends javax.swing.JPanel {
             datos[2] = d.getNombres();
             datos[3] = d.getInfoadic();
             datos[4] = iguSDF.format(d.getFecha_nac());
+            datos[5] = iguSDF.format(d.getDate_created());
+            datos[6] = iguSDF.format(d.getLast_updated());
             modelo.addRow(datos);
         }
-        tabla.getColumnModel().getColumn(0).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(1).setPreferredWidth(80);
-        tabla.getColumnModel().getColumn(2).setPreferredWidth(200);
-        tabla.getColumnModel().getColumn(3).setPreferredWidth(200);
+        tabla.getColumnModel().getColumn(0).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(0).setCellRenderer(new EstiloTablaRenderer("texto"));
+        tabla.getColumnModel().getColumn(1).setMaxWidth(35);
+        tabla.getColumnModel().getColumn(1).setCellRenderer(new EstiloTablaRenderer("texto"));
+        tabla.getColumnModel().getColumn(2).setPreferredWidth(500);
+        tabla.getColumnModel().getColumn(2).setCellRenderer(new EstiloTablaRenderer("texto"));
+        tabla.getColumnModel().getColumn(3).setPreferredWidth(600);
+        tabla.getColumnModel().getColumn(3).setCellRenderer(new EstiloTablaRenderer("texto"));
         tabla.getColumnModel().getColumn(4).setPreferredWidth(200);
+        tabla.getColumnModel().getColumn(4).setCellRenderer(new EstiloTablaRenderer("fecha"));
+        tabla.getColumnModel().getColumn(5).setPreferredWidth(200);
+        tabla.getColumnModel().getColumn(5).setCellRenderer(new EstiloTablaRenderer("fecha"));
+        tabla.getColumnModel().getColumn(6).setPreferredWidth(200);
+        tabla.getColumnModel().getColumn(6).setCellRenderer(new EstiloTablaRenderer("fecha"));
     }
 
     private void limpiarCampos() {

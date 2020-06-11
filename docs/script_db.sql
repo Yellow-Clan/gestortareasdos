@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS proveedor (
 	nombres		TEXT	NOT NULL,
     infoadic	TEXT	NULL,
 	fecha_nac	datetime	NULL,
-	date_created datetime	NULL,
-	last_updated datetime default current_timestamp
+	date_created datetime default current_timestamp,
+    last_updated datetime default current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS prove_mov (
@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS prove_mov (
 	date_created datetime default current_timestamp,
     last_updated datetime default current_timestamp,
 	FOREIGN KEY (prove_id) REFERENCES proveedor (id) 
+	ON UPDATE RESTRICT  ON DELETE RESTRICT 
 );
 
 CREATE TABLE IF NOT EXISTS compra (
@@ -84,6 +85,7 @@ CREATE TABLE IF NOT EXISTS compra (
 	date_created datetime default current_timestamp,
     last_updated datetime default current_timestamp,
 	FOREIGN KEY (prove_id) REFERENCES proveedor (id) 
+	ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 
@@ -107,6 +109,7 @@ CREATE TABLE IF NOT EXISTS clie_mov (
 	date_created datetime default current_timestamp,
     last_updated datetime default current_timestamp,
 	FOREIGN KEY (clie_id) REFERENCES cliente (id) 
+	ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS venta (
@@ -128,4 +131,5 @@ CREATE TABLE IF NOT EXISTS venta (
 	date_created datetime default current_timestamp,
     last_updated datetime default current_timestamp,
 	FOREIGN KEY (clie_id) REFERENCES cliente (id) 
+	ON UPDATE RESTRICT ON DELETE RESTRICT
 );

@@ -70,7 +70,6 @@ public class MainFrame extends javax.swing.JFrame {
         pnlPrincipal = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1089, 718));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
@@ -144,12 +143,12 @@ public class MainFrame extends javax.swing.JFrame {
                 ventasButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(ventasButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 1, 105, 81));
+        jPanel2.add(ventasButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 105, 81));
 
         clientesButton.setBackground(new java.awt.Color(239, 238, 244));
         clientesButton.setForeground(new java.awt.Color(128, 128, 131));
         clientesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/collection.png"))); // NOI18N
-        clientesButton.setText("CLIENTES");
+        clientesButton.setText("BNC/CLIENTES");
         clientesButton.setColorHover(new java.awt.Color(204, 204, 204));
         clientesButton.setColorNormal(new java.awt.Color(239, 238, 244));
         clientesButton.setColorPressed(new java.awt.Color(204, 204, 204));
@@ -169,7 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
                 clientesButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(clientesButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(673, 1, 105, 81));
+        jPanel2.add(clientesButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 120, 81));
 
         ventaButton2.setBackground(new java.awt.Color(239, 238, 244));
         ventaButton2.setForeground(new java.awt.Color(128, 128, 131));
@@ -219,7 +218,7 @@ public class MainFrame extends javax.swing.JFrame {
                 proveeButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(proveeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 121, 81));
+        jPanel2.add(proveeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 121, 81));
 
         adelantosButton.setBackground(new java.awt.Color(239, 238, 244));
         adelantosButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -271,7 +270,7 @@ public class MainFrame extends javax.swing.JFrame {
                 abricercajaButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(abricercajaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, 140, 81));
+        jPanel2.add(abricercajaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 140, 81));
 
         shopButton.setBackground(new java.awt.Color(239, 238, 244));
         shopButton.setForeground(new java.awt.Color(128, 128, 131));

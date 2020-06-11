@@ -75,7 +75,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="415" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="fechaChooser" min="-2" pref="134" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="buscarField" min="-2" pref="229" max="-2" attributes="0"/>
@@ -87,19 +89,22 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="buscarField" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                          <Component id="aSIconButton4" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="43" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="fechaChooser" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                              <Component id="buscarField" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="aSIconButton4" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -149,6 +154,17 @@
                 <Property name="text" type="java.lang.String" value="Buscar:"/>
               </Properties>
             </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="fechaChooser">
+              <Properties>
+                <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="18" style="0"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="fechaChooserPropertyChange"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -182,7 +198,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="532" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -191,7 +207,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="549" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -214,11 +230,11 @@
                           <Table columnCount="7" rowCount="4">
                             <Column editable="false" title="N&#xba;" type="java.lang.Object"/>
                             <Column editable="false" title="ID" type="java.lang.Object"/>
-                            <Column editable="false" title="NOMBRES" type="java.lang.Object"/>
-                            <Column editable="false" title="INFORMACI&#xd3;N ADIC" type="java.lang.Object"/>
+                            <Column editable="false" title="MONTO D&#xd3;LARES" type="java.lang.Object"/>
+                            <Column editable="false" title="MONTO SOLES" type="java.lang.Object"/>
+                            <Column editable="false" title="EN BANCOS D&#xd3;LARES" type="java.lang.Object"/>
+                            <Column editable="false" title="EN BANCO SOLES" type="java.lang.Object"/>
                             <Column editable="false" title="FECHA" type="java.lang.Object"/>
-                            <Column editable="true" title="CREATED" type="java.lang.Object"/>
-                            <Column editable="false" title="LAST UPDATE" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="doubleBuffered" type="boolean" value="true"/>
@@ -296,7 +312,6 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="saldo_do_validate" max="32767" attributes="0"/>
-                                      <Component id="fecha" max="32767" attributes="0"/>
                                       <Component id="saldo_so_validate" alignment="0" max="32767" attributes="0"/>
                                       <Component id="saldo_so_validate1" alignment="0" max="32767" attributes="0"/>
                                       <Component id="saldo_so_validate2" alignment="0" max="32767" attributes="0"/>
@@ -310,6 +325,7 @@
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="cerrar" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="fecha" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -368,11 +384,11 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="saldo_so_validate3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="fecha" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                              <Component id="fecha" min="-2" pref="39" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="76" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -461,18 +477,6 @@
                     <Property name="text" type="java.lang.String" value="FECHA &quot;dd/MM/yyyy&quot;"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="fecha">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="18" style="0"/>
-                    </Property>
-                    <Property name="horizontalAlignment" type="int" value="4"/>
-                    <Property name="toolTipText" type="java.lang.String" value=""/>
-                  </Properties>
-                  <AccessibilityProperties>
-                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
-                  </AccessibilityProperties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="saldo_do_validate">
                   <Properties>
@@ -619,6 +623,14 @@
                       <Font name="Tahoma" size="18" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="CERRAR CAJA"/>
+                  </Properties>
+                </Component>
+                <Component class="com.toedter.calendar.JDateChooser" name="fecha">
+                  <Properties>
+                    <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="18" style="0"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>
