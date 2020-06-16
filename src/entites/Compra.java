@@ -27,7 +27,7 @@ public class Compra {
     private double tcambio;
     private double precio_do;
     private double precio_so;
-    
+
     private double total_do;
     private double total_so;
     private double saldo_porpagar_do;
@@ -36,6 +36,18 @@ public class Compra {
     private int activo;
     private Date date_created;
     private Date last_updated;
+
+    //Datos para visualizar
+    private double egreso_do;//total_do-saldo_porpagar_do
+    private double egreso_so;//total_so-saldo_porpagar_so
+
+    public double getEgreso_do() {
+        return total_do - saldo_porpagar_do;
+    }
+
+    public double getEgreso_so() {
+        return total_so - saldo_porpagar_so;
+    }
 
     public int getId() {
         return id;
@@ -205,5 +217,4 @@ public class Compra {
         this.last_updated = last_updated;
     }
 
-  
 }

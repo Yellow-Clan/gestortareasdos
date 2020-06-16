@@ -199,6 +199,6 @@ public class EstiloTablaRenderer extends DefaultTableCellRenderer {
 
         return componenete;
 
-    }*/
-
+    }
+*/
 }

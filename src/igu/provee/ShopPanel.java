@@ -219,6 +219,7 @@ public class ShopPanel extends javax.swing.JPanel {
         });
         tabla.setDoubleBuffered(true);
         tabla.setRowHeight(25);
+        tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

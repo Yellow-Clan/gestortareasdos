@@ -223,4 +223,69 @@ public class CajaAperCierreData {
         }
         return ls;
     }
+    
+    public static List<CajaAperCierre> list(Date fechai, Date fecha, String busca) {
+        String fechati = null;
+        if (fechai == null) {
+            System.out.println("list.fechat: SIN FECHAAAiiiiii");
+            fechati = currentTime;
+        } else {
+            fechati = sdf.format(fechai);
+        }
+         System.out.println("list.fechati:" + fechati);
+        
+        String fechat = null;
+        if (fecha == null) {
+            System.out.println("list.fechat: SIN FECHAAA");
+            fechat = currentTime;
+        } else {
+            fechat = sdf.format(fecha);
+        }
+        System.out.println("list.fechat:" + fechat);
+        
+        List<CajaAperCierre> ls = new ArrayList<CajaAperCierre>();
+        String sql = "";
+        
+        if (busca.equals("")) {
+            sql = "SELECT * FROM caja_aper_cierre "
+                    + "WHERE strftime('%Y-%m-%d', fecha) between strftime('%Y-%m-%d', '" + fechati + "') and strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
+        } else {
+            sql = "SELECT * FROM caja_aper_cierre WHERE (id LIKE'" + busca + "%'  "
+                    + " OR esaper LIKE'" + busca + "%' OR "
+                    + "id LIKE'" + busca + "%') "
+                    + " AND strftime('%Y-%m-%d', fecha)  between strftime('%Y-%m-%d', '" + fechati + "') and strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
+        }
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                CajaAperCierre d = new CajaAperCierre();
+                d.setId(rs.getInt("id"));
+                //d.setFecha(rs.getDate("fecha"));
+                String fechax = rs.getString("fecha");
+                System.out.println("list.fechax:" + fechax);
+                try {
+                    Date date = sdf.parse(fechax);
+                    System.out.println("list.date:" + date);
+                    d.setFecha(date);
+                    d.setDate_created(sdf.parse(rs.getString("date_created")));
+                    d.setLast_updated(sdf.parse(rs.getString("last_updated")));
+                } catch (Exception e) {
+                }
+                d.setEsaper(rs.getInt("esaper"));
+                d.setSaldo_do(rs.getDouble("saldo_do"));
+                d.setSaldo_so(rs.getDouble("saldo_so"));
+                d.setSaldo_bancos_do(rs.getDouble("saldo_bancos_do"));
+                d.setSaldo_bancos_so(rs.getDouble("saldo_bancos_so"));
+                d.setGramos(rs.getDouble("gramos"));
+                d.setUser(rs.getInt("user"));
+                ls.add(d);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CajaAperCierreData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ls;
+    }
 }

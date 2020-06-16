@@ -72,3 +72,97 @@ SELECT
 ,sum(DISTINCT cobro_so) as ingreso_so
 FROM prove_mov
 ) as G
+
+
+
+
+
+SELECT 
+*
+FROM
+(
+ SELECT 
+  id,
+  fecha,
+  prove_id,
+  prove_nom,
+  cant_gr as ingreso_cant_gr,
+  onza,
+  porc,
+  ley,
+  tcambio,
+  precio_do,
+  precio_so,
+  total_do,
+  total_so,
+  saldo_porpagar_do,
+  saldo_porpagar_so
+ ,total_do - saldo_porpagar_do as egreso_do
+ ,total_so - saldo_porpagar_so as egreso_so
+ ,0 as ingreso_do
+ ,0 as ingreso_so
+ ,'' as glosa
+ FROM compra
+ UNION
+ SELECT 
+  id,
+  fecha,
+  prove_id,
+  prove_nom,
+  0 as ingreso_cant_gr,
+  0 as onza,
+  0 as porc,
+  0 as ley,
+  0 as tcambio,
+  0 as precio_do,
+  0 as precio_so,
+  0 as total_do,
+  0 as total_so,
+  0 as saldo_porpagar_do,
+  0 as saldo_porpagar_so
+ ,adelanto_do as egreso_do
+ ,adelanto_so as egreso_so
+ ,cobro_do as ingreso_do
+ ,cobro_so as ingreso_so
+ ,glosa
+ FROM prove_mov
+) as G
+ORDER BY fecha
+
+
+
+SELECT 
+*
+FROM
+(
+ SELECT 
+  id,
+  fecha,
+  prove_id,
+  prove_nom,
+  'Compra ' || cant_gr  || 'gr ('  ||  onza  || 'onza '  || porc  || '% '  || ley  || 'ley tc='  || tcambio  ||' '  ||
+  CASE
+	WHEN esdolares ==1   THEN 'pre$' || precio_do|| ') tot='  || total_do
+	WHEN esdolares ==0   THEN 'preS/' || precio_so|| ') tot='  || total_so
+	ELSE ')ERROR'
+  END glosa
+ ,0 as debito_do
+ ,0 as debito_so
+ ,saldo_porpagar_do as credito_do
+ ,saldo_porpagar_so as credito_so
+ FROM compra
+ UNION
+ SELECT 
+  id,
+  fecha,
+  prove_id,
+  prove_nom,
+  glosa
+ ,adelanto_do as debito_do
+ ,adelanto_so as debito_so
+ ,cobro_do as credito_do
+ ,cobro_so as credito_so
+
+ FROM prove_mov
+) as G
+ORDER BY fecha

@@ -240,7 +240,7 @@ public class ProveedoresPanel extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -249,6 +249,7 @@ public class ProveedoresPanel extends javax.swing.JPanel {
         });
         tabla.setDoubleBuffered(true);
         tabla.setRowHeight(25);
+        tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

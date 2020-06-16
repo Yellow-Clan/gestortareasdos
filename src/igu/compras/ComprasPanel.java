@@ -62,6 +62,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         Date date_i = new Date();
         //fecha.setText(iguSDF.format(date_i));
         fecha.setDate(date_i);
+        fechaIniChooser.setDate(date_i);
         fechaChooser.setDate(date_i);
         nombres.requestFocus();
         prove_id.setText("");
@@ -91,7 +92,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         jScrollPane1.getHorizontalScrollBar().setUI(new MyScrollbarUI());
 
         id.setText("");
-        paintTable(fechaChooser.getDate(), "");
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), "");
 
         tabla.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -152,36 +153,46 @@ public class ComprasPanel extends javax.swing.JPanel {
         myJList.setModel(defaultListModelValue);
     }
 
-    private void paintTable(Date date, String buscar) {
+    private void paintTable(Date datei, Date date, String buscar) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        List<Compra> lis = CompraData.list(date, buscar);
+        List<Compra> lis = CompraData.list(datei, date, buscar);
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        String datos[] = new String[11];
+        String datos[] = new String[18];
         int cont = 0;
         double scant_gr = 0;
         double stotal_do = 0;
         double stotal_so = 0;
         double ssaldo_do_porpagar = 0;
         double ssaldo_so_porpagar = 0;
+        double segreso_do = 0;//total_do-saldo_porpagar_do
+        double segreso_so = 0;//total_so-saldo_porpagar_so
         for (Compra d : lis) {
             scant_gr = scant_gr + d.getCant_gr();
             stotal_do = stotal_do + d.getTotal_do();
             stotal_so = stotal_so + d.getTotal_so();
             ssaldo_do_porpagar = ssaldo_do_porpagar + d.getSaldo_porpagar_do();
             ssaldo_so_porpagar = ssaldo_so_porpagar + d.getSaldo_porpagar_so();
+            segreso_do = segreso_do + d.getEgreso_do();
+            segreso_so = segreso_so + d.getEgreso_so();
             datos[0] = ++cont + "";
             datos[1] = d.getId() + "";
             datos[2] = d.getProve_nom();
             datos[3] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getCant_gr());
-            datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPrecio_do());
-            datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPrecio_so());
-            datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_do());
-            datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_so());
-            datos[8] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_porpagar_do());
-            datos[9] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_porpagar_so());
-            datos[10] = iguSDF.format(d.getFecha());
+            datos[4] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getOnza());
+            datos[5] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPorc());
+            datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getLey());
+            datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTcambio());
+            datos[8] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPrecio_do());
+            datos[9] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getPrecio_so());
+            datos[10] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_do());
+            datos[11] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getTotal_so());
+            datos[12] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_porpagar_do());
+            datos[13] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getSaldo_porpagar_so());
+            datos[14] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getEgreso_do());
+            datos[15] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(d.getEgreso_so());
+            datos[16] = iguSDF.format(d.getFecha());
             modelo.addRow(datos);
         }
         datos[0] = "";
@@ -190,11 +201,17 @@ public class ComprasPanel extends javax.swing.JPanel {
         datos[3] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(scant_gr) + "";
         datos[4] = "";
         datos[5] = "";
-        datos[6] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(stotal_do) + "";
-        datos[7] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(stotal_so) + "";
-        datos[8] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(ssaldo_do_porpagar) + "";
-        datos[9] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(ssaldo_so_porpagar) + "";
-        datos[10] = "";
+        datos[6] = "";
+        datos[7] = "";
+        datos[8] = "";
+        datos[9] = "";
+        datos[10] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(stotal_do) + "";
+        datos[11] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(stotal_so) + "";
+        datos[12] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(ssaldo_do_porpagar) + "";
+        datos[13] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(ssaldo_so_porpagar) + "";
+        datos[14] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(segreso_do) + "";
+        datos[15] = new DecimalFormat(Config.DEFAULT_DECIMAL_FORMAT).format(segreso_so) + "";
+        datos[16] = "";
         modelo.addRow(datos);
 
         // tabla.getTableHeader().setReorderingAllowed(false);
@@ -222,8 +239,22 @@ public class ComprasPanel extends javax.swing.JPanel {
         tabla.getColumnModel().getColumn(8).setCellRenderer(rightRenderer);
         tabla.getColumnModel().getColumn(9).setPreferredWidth(40);
         tabla.getColumnModel().getColumn(9).setCellRenderer(rightRenderer);
-        tabla.getColumnModel().getColumn(10).setPreferredWidth(10);
-        tabla.getColumnModel().getColumn(10).setCellRenderer(new EstiloTablaFootRenderer("fecha"));
+        
+        tabla.getColumnModel().getColumn(10).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(10).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(11).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(11).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(12).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(12).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(13).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(13).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(14).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(14).setCellRenderer(rightRenderer);
+        tabla.getColumnModel().getColumn(15).setPreferredWidth(40);
+        tabla.getColumnModel().getColumn(15).setCellRenderer(rightRenderer);
+        
+        tabla.getColumnModel().getColumn(16).setPreferredWidth(10);
+        tabla.getColumnModel().getColumn(16).setCellRenderer(new EstiloTablaFootRenderer("fecha"));
 
     }
 
@@ -243,7 +274,7 @@ public class ComprasPanel extends javax.swing.JPanel {
 
     private void limpiarCampos() {
         limpiarSoloCampos();
-        paintTable(fechaChooser.getDate(), "");
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), "");
         nombres.requestFocus();
     }
 
@@ -280,6 +311,10 @@ public class ComprasPanel extends javax.swing.JPanel {
         precio_do = new javax.swing.JTextField();
         precio_so = new javax.swing.JTextField();
         fechaChooser = new com.toedter.calendar.JDateChooser();
+        fechaIniChooser = new com.toedter.calendar.JDateChooser();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -349,7 +384,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel4.setText("Buscar:");
+        jLabel4.setText("Buscar.");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("ONZA");
@@ -497,12 +532,26 @@ public class ComprasPanel extends javax.swing.JPanel {
         );
 
         fechaChooser.setDateFormatString("dd/MM/yyyy");
-        fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         fechaChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 fechaChooserPropertyChange(evt);
             }
         });
+
+        fechaIniChooser.setDateFormatString("dd/MM/yyyy");
+        fechaIniChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        fechaIniChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaIniChooserPropertyChange(evt);
+            }
+        });
+
+        jLabel21.setText("EXPORT");
+
+        jLabel22.setText("HASTA");
+
+        jLabel23.setText("DESDE.");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -511,19 +560,28 @@ public class ComprasPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                        .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fechaIniChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addGap(69, 69, 69)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21)
+                    .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -533,16 +591,26 @@ public class ComprasPanel extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel21))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
+                            .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 29, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fechaChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel22)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel23)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fechaIniChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -553,25 +621,18 @@ public class ComprasPanel extends javax.swing.JPanel {
         tabla.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nº", "ID", "NOMBRES", "GR", "PREC. DOL", "PREC. SOL", "TOTAL DOLA", "TOTAL SO", "PORPAGAR DO", "PORPAGAR SOL", "FECHA"
+                "Nº", "ID", "NOMBRES", "GR", "ONZA", "%", "LEY", "T.CAMB", "PREC. DOL", "PREC. SOL", "TOTAL DOLA", "TOTAL SO", "XPAGAR DO", "XPAGAR SOL", "EGRE DO", "EGRE SO", "FECHA"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Object.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -579,6 +640,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         });
         tabla.setDoubleBuffered(true);
         tabla.setRowHeight(25);
+        tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1165,7 +1227,7 @@ public class ComprasPanel extends javax.swing.JPanel {
 
     private void buscarFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyReleased
         // TODO add your handling code here:
-        paintTable(fechaChooser.getDate(), buscarField.getText());
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), buscarField.getText());
     }//GEN-LAST:event_buscarFieldKeyReleased
 
     private void moneda_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_dolaresActionPerformed
@@ -1358,8 +1420,13 @@ public class ComprasPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         Date test = this.fechaChooser.getDate(); //"02/03/2020";
         System.out.println("panel.fechaaaaaaaaaaaaaa: " + test);
-        paintTable(fechaChooser.getDate(), buscarField.getText());
+       paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), buscarField.getText());
     }//GEN-LAST:event_fechaChooserPropertyChange
+
+    private void fechaIniChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaIniChooserPropertyChange
+        // TODO add your handling code here:
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), buscarField.getText());
+    }//GEN-LAST:event_fechaIniChooserPropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1371,6 +1438,7 @@ public class ComprasPanel extends javax.swing.JPanel {
     private igu.util.buttons.ASIconButton eliminarButton;
     private com.toedter.calendar.JDateChooser fecha;
     private com.toedter.calendar.JDateChooser fechaChooser;
+    private com.toedter.calendar.JDateChooser fechaIniChooser;
     private igu.util.buttons.ASIconButton guardarButton;
     private javax.swing.JLabel id;
     private javax.swing.JButton jButton1;
@@ -1387,6 +1455,9 @@ public class ComprasPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

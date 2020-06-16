@@ -5,8 +5,6 @@
  */
 package igu.princ;
 
-import igu.util.alerts.ErrorAlert;
-
 /**
  *
  * @author Asullom
@@ -15,6 +13,7 @@ public class Validate {
 
     public static boolean isPin = false;
     public static int userId = 0;
+    public static int proveIdSelected = 0;
     
 
     public boolean comprobar() {

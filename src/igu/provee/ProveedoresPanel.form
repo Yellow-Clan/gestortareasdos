@@ -213,12 +213,15 @@
                             <Column editable="false" title="NOMBRES" type="java.lang.Object"/>
                             <Column editable="false" title="INFORMACI&#xd3;N ADIC" type="java.lang.Object"/>
                             <Column editable="false" title="FECHA" type="java.lang.Object"/>
-                            <Column editable="true" title="CREATED" type="java.lang.Object"/>
+                            <Column editable="false" title="CREATED" type="java.lang.Object"/>
                             <Column editable="false" title="LAST UPDATE" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="doubleBuffered" type="boolean" value="true"/>
                         <Property name="rowHeight" type="int" value="25"/>
+                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                          <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                        </Property>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>

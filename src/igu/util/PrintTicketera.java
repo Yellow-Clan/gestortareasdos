@@ -7,7 +7,7 @@ package igu.util;
 
 /*
  * PrintTicketera.java
- *(c) 2004 Angel Sullon Macalupu, Todos los derechos reservados
+ *(c) 1998 2004 Angel Sullon Macalupu, Todos los derechos reservados
  */
 import data.CompraData;
 import data.Conn;

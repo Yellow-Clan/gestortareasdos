@@ -10,6 +10,7 @@ import igu.clientes.ClientesPanel;
 import igu.compras.AdelantosPanel;
 import igu.ventas.VentasPanel;
 import igu.compras.ComprasPanel;
+import igu.compras.ReporteComprasPanel;
 import igu.provee.ProveedoresPanel;
 import igu.provee.ShopPanel;
 import java.awt.Color;
@@ -64,7 +65,9 @@ public class MainFrame extends javax.swing.JFrame {
         proveeButton = new igu.util.buttons.ASIconButton();
         adelantosButton = new igu.util.buttons.ASIconButton();
         abricercajaButton = new igu.util.buttons.ASIconButton();
-        shopButton = new igu.util.buttons.ASIconButton();
+        reporteComprasButton = new igu.util.buttons.ASIconButton();
+        ventaButton3 = new igu.util.buttons.ASIconButton();
+        ventaButton4 = new igu.util.buttons.ASIconButton();
         pnlCentro = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlPrincipal = new javax.swing.JPanel();
@@ -94,7 +97,6 @@ public class MainFrame extends javax.swing.JFrame {
                 jPanel2MousePressed(evt);
             }
         });
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         comprasButton.setForeground(new java.awt.Color(128, 128, 131));
         comprasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/market.png"))); // NOI18N
@@ -118,7 +120,6 @@ public class MainFrame extends javax.swing.JFrame {
                 comprasButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(comprasButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 1, 102, 81));
 
         ventasButton.setBackground(new java.awt.Color(239, 238, 244));
         ventasButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -143,7 +144,6 @@ public class MainFrame extends javax.swing.JFrame {
                 ventasButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(ventasButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 105, 81));
 
         clientesButton.setBackground(new java.awt.Color(239, 238, 244));
         clientesButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -168,7 +168,6 @@ public class MainFrame extends javax.swing.JFrame {
                 clientesButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(clientesButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 120, 81));
 
         ventaButton2.setBackground(new java.awt.Color(239, 238, 244));
         ventaButton2.setForeground(new java.awt.Color(128, 128, 131));
@@ -193,7 +192,6 @@ public class MainFrame extends javax.swing.JFrame {
                 ventaButton2ActionPerformed(evt);
             }
         });
-        jPanel2.add(ventaButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(911, 14, 105, -1));
 
         proveeButton.setBackground(new java.awt.Color(239, 238, 244));
         proveeButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -218,7 +216,6 @@ public class MainFrame extends javax.swing.JFrame {
                 proveeButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(proveeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 121, 81));
 
         adelantosButton.setBackground(new java.awt.Color(239, 238, 244));
         adelantosButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -244,7 +241,6 @@ public class MainFrame extends javax.swing.JFrame {
                 adelantosButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(adelantosButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 100, 81));
 
         abricercajaButton.setBackground(new java.awt.Color(239, 238, 244));
         abricercajaButton.setForeground(new java.awt.Color(128, 128, 131));
@@ -270,32 +266,125 @@ public class MainFrame extends javax.swing.JFrame {
                 abricercajaButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(abricercajaButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 140, 81));
 
-        shopButton.setBackground(new java.awt.Color(239, 238, 244));
-        shopButton.setForeground(new java.awt.Color(128, 128, 131));
-        shopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/collection.png"))); // NOI18N
-        shopButton.setText("Shop");
-        shopButton.setColorHover(new java.awt.Color(204, 204, 204));
-        shopButton.setColorNormal(new java.awt.Color(239, 238, 244));
-        shopButton.setColorPressed(new java.awt.Color(204, 204, 204));
-        shopButton.setColorTextHover(new java.awt.Color(128, 128, 131));
-        shopButton.setColorTextNormal(new java.awt.Color(128, 128, 131));
-        shopButton.setColorTextPressed(new java.awt.Color(128, 128, 131));
-        shopButton.setFocusable(false);
-        shopButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        shopButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        shopButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        reporteComprasButton.setBackground(new java.awt.Color(239, 238, 244));
+        reporteComprasButton.setForeground(new java.awt.Color(128, 128, 131));
+        reporteComprasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/collection.png"))); // NOI18N
+        reporteComprasButton.setText("REP.COMPRAS");
+        reporteComprasButton.setColorHover(new java.awt.Color(204, 204, 204));
+        reporteComprasButton.setColorNormal(new java.awt.Color(239, 238, 244));
+        reporteComprasButton.setColorPressed(new java.awt.Color(204, 204, 204));
+        reporteComprasButton.setColorTextHover(new java.awt.Color(128, 128, 131));
+        reporteComprasButton.setColorTextNormal(new java.awt.Color(128, 128, 131));
+        reporteComprasButton.setColorTextPressed(new java.awt.Color(128, 128, 131));
+        reporteComprasButton.setFocusable(false);
+        reporteComprasButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        reporteComprasButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        reporteComprasButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                shopButtonMousePressed(evt);
+                reporteComprasButtonMousePressed(evt);
             }
         });
-        shopButton.addActionListener(new java.awt.event.ActionListener() {
+        reporteComprasButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                shopButtonActionPerformed(evt);
+                reporteComprasButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(shopButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(794, 1, 105, 81));
+
+        ventaButton3.setBackground(new java.awt.Color(239, 238, 244));
+        ventaButton3.setForeground(new java.awt.Color(128, 128, 131));
+        ventaButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/collection.png"))); // NOI18N
+        ventaButton3.setText("MOV. CLIE");
+        ventaButton3.setColorHover(new java.awt.Color(204, 204, 204));
+        ventaButton3.setColorNormal(new java.awt.Color(239, 238, 244));
+        ventaButton3.setColorPressed(new java.awt.Color(204, 204, 204));
+        ventaButton3.setColorTextHover(new java.awt.Color(128, 128, 131));
+        ventaButton3.setColorTextNormal(new java.awt.Color(128, 128, 131));
+        ventaButton3.setColorTextPressed(new java.awt.Color(128, 128, 131));
+        ventaButton3.setFocusable(false);
+        ventaButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        ventaButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ventaButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ventaButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ventaButton3MousePressed(evt);
+            }
+        });
+        ventaButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ventaButton3ActionPerformed(evt);
+            }
+        });
+
+        ventaButton4.setBackground(new java.awt.Color(239, 238, 244));
+        ventaButton4.setForeground(new java.awt.Color(128, 128, 131));
+        ventaButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/collection.png"))); // NOI18N
+        ventaButton4.setText("REP.VNTAS");
+        ventaButton4.setColorHover(new java.awt.Color(204, 204, 204));
+        ventaButton4.setColorNormal(new java.awt.Color(239, 238, 244));
+        ventaButton4.setColorPressed(new java.awt.Color(204, 204, 204));
+        ventaButton4.setColorTextHover(new java.awt.Color(128, 128, 131));
+        ventaButton4.setColorTextNormal(new java.awt.Color(128, 128, 131));
+        ventaButton4.setColorTextPressed(new java.awt.Color(128, 128, 131));
+        ventaButton4.setFocusable(false);
+        ventaButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ventaButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ventaButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ventaButton4MousePressed(evt);
+            }
+        });
+        ventaButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ventaButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comprasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(adelantosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(proveeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(reporteComprasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(abricercajaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(ventaButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ventasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(clientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ventaButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ventaButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addComponent(comprasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(adelantosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(proveeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(reporteComprasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(abricercajaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(ventasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(ventaButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(ventaButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(clientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ventaButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -320,7 +409,7 @@ public class MainFrame extends javax.swing.JFrame {
         pnlCentro.setLayout(pnlCentroLayout);
         pnlCentroLayout.setHorizontalGroup(
             pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1188, Short.MAX_VALUE)
         );
         pnlCentroLayout.setVerticalGroup(
             pnlCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,9 +475,9 @@ public class MainFrame extends javax.swing.JFrame {
             this.abricercajaButton.setColorHover(new Color(204, 204, 204));
             this.abricercajaButton.setColorPressed(new Color(204, 204, 204));
             
-             this.shopButton.setColorNormal(new Color(239, 238, 244));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+             this.reporteComprasButton.setColorNormal(new Color(239, 238, 244));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
 
         } else {
             this.ventasButton.setColorNormal(new Color(239, 238, 244));
@@ -430,9 +519,9 @@ public class MainFrame extends javax.swing.JFrame {
             this.abricercajaButton.setColorHover(new Color(204, 204, 204));
             this.abricercajaButton.setColorPressed(new Color(204, 204, 204));
             
-             this.shopButton.setColorNormal(new Color(239, 238, 244));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+             this.reporteComprasButton.setColorNormal(new Color(239, 238, 244));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
 
         } else {
             this.comprasButton.setColorNormal(new Color(239, 238, 244));
@@ -452,7 +541,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.clientesButton.setSelected(false);
         this.adelantosButton.setSelected(false);
         this.abricercajaButton.setSelected(false);
-        this.shopButton.setSelected(false);
+        this.reporteComprasButton.setSelected(false);
     }//GEN-LAST:event_comprasButtonMousePressed
 
     private void ventasButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ventasButtonMousePressed
@@ -462,7 +551,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.clientesButton.setSelected(false);
         this.adelantosButton.setSelected(false);
         this.abricercajaButton.setSelected(false);
-        this.shopButton.setSelected(false);
+        this.reporteComprasButton.setSelected(false);
     }//GEN-LAST:event_ventasButtonMousePressed
 
     private void clientesButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesButtonMousePressed
@@ -472,7 +561,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.comprasButton.setSelected(false);
         this.adelantosButton.setSelected(false);
         this.abricercajaButton.setSelected(false);
-        this.shopButton.setSelected(false);
+        this.reporteComprasButton.setSelected(false);
     }//GEN-LAST:event_clientesButtonMousePressed
 
     private void clientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesButtonActionPerformed
@@ -508,9 +597,9 @@ public class MainFrame extends javax.swing.JFrame {
             this.abricercajaButton.setColorHover(new Color(204, 204, 204));
             this.abricercajaButton.setColorPressed(new Color(204, 204, 204));
             
-             this.shopButton.setColorNormal(new Color(239, 238, 244));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+             this.reporteComprasButton.setColorNormal(new Color(239, 238, 244));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
 
         } else {
             this.clientesButton.setColorNormal(new Color(239, 238, 244));
@@ -534,7 +623,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.comprasButton.setSelected(false);
         this.adelantosButton.setSelected(false);
         this.abricercajaButton.setSelected(false);
-        this.shopButton.setSelected(false);
+        this.reporteComprasButton.setSelected(false);
     }//GEN-LAST:event_proveeButtonMousePressed
 
     private void proveeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveeButtonActionPerformed
@@ -564,9 +653,9 @@ public class MainFrame extends javax.swing.JFrame {
             this.abricercajaButton.setColorHover(new Color(204, 204, 204));
             this.abricercajaButton.setColorPressed(new Color(204, 204, 204));
             
-             this.shopButton.setColorNormal(new Color(239, 238, 244));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+             this.reporteComprasButton.setColorNormal(new Color(239, 238, 244));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
 
         } else {
             this.proveeButton.setColorNormal(new Color(239, 238, 244));
@@ -582,7 +671,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.ventasButton.setSelected(false);
         this.comprasButton.setSelected(false);
         this.abricercajaButton.setSelected(false);
-        this.shopButton.setSelected(false);
+        this.reporteComprasButton.setSelected(false);
 
     }//GEN-LAST:event_adelantosButtonMousePressed
 
@@ -620,9 +709,9 @@ public class MainFrame extends javax.swing.JFrame {
             this.abricercajaButton.setColorHover(new Color(204, 204, 204));
             this.abricercajaButton.setColorPressed(new Color(204, 204, 204));
             
-             this.shopButton.setColorNormal(new Color(239, 238, 244));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+             this.reporteComprasButton.setColorNormal(new Color(239, 238, 244));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
 
         } else {
             this.adelantosButton.setColorNormal(new Color(239, 238, 244));
@@ -638,7 +727,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.clientesButton.setSelected(false);
         this.ventasButton.setSelected(false);
         this.comprasButton.setSelected(false);
-        this.shopButton.setSelected(false);
+        this.reporteComprasButton.setSelected(false);
         
     }//GEN-LAST:event_abricercajaButtonMousePressed
 
@@ -673,9 +762,9 @@ public class MainFrame extends javax.swing.JFrame {
             this.comprasButton.setColorHover(new Color(204, 204, 204));
             this.comprasButton.setColorPressed(new Color(204, 204, 204));
             
-             this.shopButton.setColorNormal(new Color(239, 238, 244));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+             this.reporteComprasButton.setColorNormal(new Color(239, 238, 244));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
 
         } else {
             this.abricercajaButton.setColorNormal(new Color(239, 238, 244));
@@ -684,9 +773,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_abricercajaButtonActionPerformed
 
-    private void shopButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shopButtonMousePressed
+    private void reporteComprasButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reporteComprasButtonMousePressed
         // TODO add your handling code here:
-        this.shopButton.setSelected(true);
+        this.reporteComprasButton.setSelected(true);
         this.clientesButton.setSelected(false);
         this.ventasButton.setSelected(false);
         this.comprasButton.setSelected(false);
@@ -694,21 +783,21 @@ public class MainFrame extends javax.swing.JFrame {
         this.abricercajaButton.setSelected(false);
         
         
-    }//GEN-LAST:event_shopButtonMousePressed
+    }//GEN-LAST:event_reporteComprasButtonMousePressed
 
-    private void shopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shopButtonActionPerformed
+    private void reporteComprasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteComprasButtonActionPerformed
         // TODO add your handling code here:
-                new CambiaPanel(pnlPrincipal, new ShopPanel());
+                new CambiaPanel(pnlPrincipal, new ReporteComprasPanel());
         if (new Validate().comprobar()) {
 
         } else {
             new CambiaPanel(pnlPrincipal, new PinPanel());
         }
 
-        if (this.shopButton.isSelected()) {
-            this.shopButton.setColorNormal(new Color(204, 204, 204));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+        if (this.reporteComprasButton.isSelected()) {
+            this.reporteComprasButton.setColorNormal(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
 
             this.comprasButton.setColorNormal(new Color(239, 238, 244));
             this.comprasButton.setColorHover(new Color(204, 204, 204));
@@ -737,11 +826,27 @@ public class MainFrame extends javax.swing.JFrame {
            
 
         } else {
-            this.shopButton.setColorNormal(new Color(239, 238, 244));
-            this.shopButton.setColorHover(new Color(204, 204, 204));
-            this.shopButton.setColorPressed(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorNormal(new Color(239, 238, 244));
+            this.reporteComprasButton.setColorHover(new Color(204, 204, 204));
+            this.reporteComprasButton.setColorPressed(new Color(204, 204, 204));
         }
-    }//GEN-LAST:event_shopButtonActionPerformed
+    }//GEN-LAST:event_reporteComprasButtonActionPerformed
+
+    private void ventaButton3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ventaButton3MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ventaButton3MousePressed
+
+    private void ventaButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventaButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ventaButton3ActionPerformed
+
+    private void ventaButton4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ventaButton4MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ventaButton4MousePressed
+
+    private void ventaButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventaButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ventaButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -762,8 +867,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlCentro;
     public static javax.swing.JPanel pnlPrincipal;
     private igu.util.buttons.ASIconButton proveeButton;
-    private igu.util.buttons.ASIconButton shopButton;
+    private igu.util.buttons.ASIconButton reporteComprasButton;
     private igu.util.buttons.ASIconButton ventaButton2;
+    private igu.util.buttons.ASIconButton ventaButton3;
+    private igu.util.buttons.ASIconButton ventaButton4;
     private igu.util.buttons.ASIconButton ventasButton;
     // End of variables declaration//GEN-END:variables
 }

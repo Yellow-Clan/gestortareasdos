@@ -258,4 +258,80 @@ public class CompraData {
         }
         return ls;
     }
+    
+    
+    public static List<Compra> list(Date fechai, Date fecha, String busca) {
+        String fechati = null;
+        if (fechai == null) {
+            System.out.println("list.fechat: SIN FECHAAAiiiiii");
+            fechati = currentTime;
+        } else {
+            fechati = sdf.format(fechai);
+        }
+         System.out.println("list.fechati:" + fechati);
+        
+        String fechat = null;
+        if (fecha == null) {
+            System.out.println("list.fechat: SIN FECHAAA");
+            fechat = currentTime;
+        } else {
+            fechat = sdf.format(fecha);
+        }
+        System.out.println("list.fechat:" + fechat);
+
+        List<Compra> ls = new ArrayList<Compra>();
+        String sql = "";
+        if (busca.equals("")) {
+            sql = "SELECT * FROM compra "
+                    + "WHERE strftime('%Y-%m-%d', fecha) between strftime('%Y-%m-%d', '" + fechati + "') and strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
+        } else {
+            sql = "SELECT * FROM compra WHERE (id LIKE'" + busca + "%'  "
+                    + " OR prove_nom LIKE'" + busca + "%' OR "
+                    + "id LIKE'" + busca + "%') "
+                    + " AND strftime('%Y-%m-%d', fecha)  between strftime('%Y-%m-%d', '" + fechati + "') and strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
+        }
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Compra d = new Compra();
+                d.setId(rs.getInt("id"));
+                String fechax = rs.getString("fecha");
+                System.out.println("list.fecha:" + fechax);
+                try {
+                    Date datex = sdf.parse(fechax);
+                    System.out.println("list.date:" + datex);
+                    d.setFecha(datex);
+                    d.setDate_created(sdf.parse(rs.getString("date_created")));
+                    d.setLast_updated(sdf.parse(rs.getString("last_updated")));
+                } catch (Exception e) {
+                }
+                d.setProve_id(rs.getInt("prove_id"));
+                d.setProve_nom(rs.getString("prove_nom"));
+                d.setCant_gr(rs.getDouble("cant_gr"));
+                d.setEsdolares(rs.getInt("esdolares"));
+
+                d.setOnza(rs.getDouble("onza"));
+                d.setPorc(rs.getDouble("porc"));
+                d.setLey(rs.getDouble("ley"));
+                d.setSistema(rs.getDouble("sistema"));
+                d.setTcambio(rs.getDouble("tcambio"));
+                d.setPrecio_do(rs.getDouble("precio_do"));
+                d.setPrecio_so(rs.getDouble("precio_so"));
+
+                d.setTotal_do(rs.getDouble("total_do"));
+                d.setTotal_so(rs.getDouble("total_so"));
+                d.setSaldo_porpagar_do(rs.getDouble("saldo_porpagar_do"));
+                d.setSaldo_porpagar_so(rs.getDouble("saldo_porpagar_so"));
+                d.setUser(rs.getInt("user"));
+                d.setActivo(rs.getInt("activo"));
+                ls.add(d);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CompraData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ls;
+    }
 }

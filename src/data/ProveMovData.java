@@ -219,4 +219,73 @@ public class ProveMovData {
         }
         return ls;
     }
+    
+    public static List<ProveMov> list(Date fechai, Date fecha, String busca) {
+        String fechati = null;
+        if (fechai == null) {
+            System.out.println("list.fechat: SIN FECHAAAiiiiii");
+            fechati = currentTime;
+        } else {
+            fechati = sdf.format(fechai);
+        }
+         System.out.println("list.fechati:" + fechati);
+        
+        String fechat = null;
+        if (fecha == null) {
+            System.out.println("list.fechat: SIN FECHAAA");
+            fechat = currentTime;
+        } else {
+            fechat = sdf.format(fecha);
+        }
+        System.out.println("list.fechat:" + fechat);
+
+        List<ProveMov> ls = new ArrayList<ProveMov>();
+        String sql = "";
+        if (busca.equals("")) {
+            sql = "SELECT * FROM prove_mov "
+                    + "WHERE strftime('%Y-%m-%d', fecha) between strftime('%Y-%m-%d', '" + fechati + "') and strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
+        } else {
+            sql = "SELECT * FROM prove_mov WHERE (id LIKE'" + busca + "%'  "
+                    + " OR prove_nom LIKE'" + busca + "%' OR "
+                    + "id LIKE'" + busca + "%') "
+                    + " AND strftime('%Y-%m-%d', fecha)  between strftime('%Y-%m-%d', '" + fechati + "') and strftime('%Y-%m-%d', '" + fechat + "') "
+                    + "ORDER BY fecha";
+        }
+
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                ProveMov d = new ProveMov();
+                d.setId(rs.getInt("id"));
+                //d.setFecha(rs.getDate("fecha"));
+                String fechax = rs.getString("fecha");
+                System.out.println("list.fecha:" + fechax);
+                try {
+                    Date date = sdf.parse(fechax);
+                    System.out.println("list.date:" + date);
+                    d.setFecha(date);
+                    d.setDate_created(sdf.parse(rs.getString("date_created")));
+                    d.setLast_updated(sdf.parse(rs.getString("last_updated")));
+                } catch (Exception e) {
+                }
+                d.setProve_id(rs.getInt("prove_id"));
+                d.setProve_nom(rs.getString("prove_nom"));
+                d.setGlosa(rs.getString("glosa"));
+                d.setEsdolares(rs.getInt("esdolares"));
+                d.setEsadelanto(rs.getInt("esadelanto"));
+                d.setAdelanto_do(rs.getDouble("adelanto_do"));
+                d.setAdelanto_so(rs.getDouble("adelanto_so"));
+                d.setCobro_do(rs.getDouble("cobro_do"));
+                d.setCobro_so(rs.getDouble("cobro_so"));
+                d.setUser(rs.getInt("user"));
+                d.setActivo(rs.getInt("activo"));
+                ls.add(d);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProveMovData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ls;
+    }
 }

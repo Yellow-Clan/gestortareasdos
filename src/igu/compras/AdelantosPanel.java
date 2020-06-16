@@ -56,6 +56,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
         Date date_i = new Date();
         fecha.setDate(date_i);
+        fechaIniChooser.setDate(date_i);
         fechaChooser.setDate(date_i);
         nombres.requestFocus();
         prove_id.setText("");
@@ -83,7 +84,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
         jScrollPane1.getHorizontalScrollBar().setUI(new MyScrollbarUI());
 
         id.setText("");
-        paintTable(fechaChooser.getDate(), "");
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), "");
 
         tabla.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -132,9 +133,9 @@ public class AdelantosPanel extends javax.swing.JPanel {
         myJList.setModel(defaultListModelValue);
     }
 
-    private void paintTable(Date date, String buscar) {
+    private void paintTable(Date datei,Date date, String buscar) {
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        List<ProveMov> lis = ProveMovData.list(date, buscar);
+        List<ProveMov> lis = ProveMovData.list(datei, date, buscar);
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
@@ -211,7 +212,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
     private void limpiarCampos() {
 
         limpiarSoloCampos();
-        paintTable(fechaChooser.getDate(), "");
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), "");
 
     }
 
@@ -233,6 +234,10 @@ public class AdelantosPanel extends javax.swing.JPanel {
         aSIconButton4 = new igu.util.buttons.ASIconButton();
         jLabel4 = new javax.swing.JLabel();
         fechaChooser = new com.toedter.calendar.JDateChooser();
+        fechaIniChooser = new com.toedter.calendar.JDateChooser();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -298,7 +303,8 @@ public class AdelantosPanel extends javax.swing.JPanel {
         });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel4.setText("Buscar:");
+        jLabel4.setText("Buscar.");
+        jLabel4.setToolTipText("");
 
         fechaChooser.setDateFormatString("dd/MM/yyyy");
         fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -308,36 +314,67 @@ public class AdelantosPanel extends javax.swing.JPanel {
             }
         });
 
+        fechaIniChooser.setDateFormatString("dd/MM/yyyy");
+        fechaIniChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        fechaIniChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                fechaIniChooserPropertyChange(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setText("EXPORT");
+
+        jLabel9.setText("HASTA");
+
+        jLabel10.setText("DESDE.");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addContainerGap(676, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fechaIniChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fechaChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(fechaChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
+                        .addGap(5, 5, 5)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fechaChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(fechaIniChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buscarField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(aSIconButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -354,7 +391,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nº", "ID", "NOMBRES", "GLOSA", "ADELANTO DÓLAR", "ADELANTO SOL", "COBRO DÓ", "COBRO SO", "FECHA"
+                "Nº", "ID", "NOMBRES", "GLOSA", "ADELANTO/PAG. DO", "ADELANTO/PAG. SO", "COBRO DÓ", "COBRO SO", "FECHA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -367,6 +404,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
         });
         tabla.setDoubleBuffered(true);
         tabla.setRowHeight(25);
+        tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -374,14 +412,14 @@ public class AdelantosPanel extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -871,7 +909,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
     private void buscarFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarFieldKeyReleased
         // TODO add your handling code here:
-        paintTable(fechaChooser.getDate(), buscarField.getText());
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), buscarField.getText());
     }//GEN-LAST:event_buscarFieldKeyReleased
 
     private void moneda_dolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneda_dolaresActionPerformed
@@ -988,8 +1026,13 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
     private void fechaChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaChooserPropertyChange
         // TODO add your handling code here:
-        paintTable(fechaChooser.getDate(), buscarField.getText());
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), buscarField.getText());
     }//GEN-LAST:event_fechaChooserPropertyChange
+
+    private void fechaIniChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_fechaIniChooserPropertyChange
+        // TODO add your handling code here:
+        paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), buscarField.getText());
+    }//GEN-LAST:event_fechaIniChooserPropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -998,10 +1041,12 @@ public class AdelantosPanel extends javax.swing.JPanel {
     private igu.util.buttons.ASIconButton eliminarButton;
     private com.toedter.calendar.JDateChooser fecha;
     private com.toedter.calendar.JDateChooser fechaChooser;
+    private com.toedter.calendar.JDateChooser fechaIniChooser;
     private javax.swing.JTextArea glosa;
     private igu.util.buttons.ASIconButton guardarButton;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -1011,6 +1056,8 @@ public class AdelantosPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
