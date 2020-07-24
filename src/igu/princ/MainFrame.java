@@ -100,7 +100,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         comprasButton.setForeground(new java.awt.Color(128, 128, 131));
         comprasButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/market.png"))); // NOI18N
-        comprasButton.setText("COMPRAS");
+        comprasButton.setText("Mis Tareas");
         comprasButton.setColorHover(new java.awt.Color(204, 204, 204));
         comprasButton.setColorNormal(new java.awt.Color(204, 204, 204));
         comprasButton.setColorPressed(new java.awt.Color(204, 204, 204));
@@ -220,7 +220,7 @@ public class MainFrame extends javax.swing.JFrame {
         adelantosButton.setBackground(new java.awt.Color(239, 238, 244));
         adelantosButton.setForeground(new java.awt.Color(128, 128, 131));
         adelantosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/igu/imgs/img/collection.png"))); // NOI18N
-        adelantosButton.setText("MOV. PROVE.");
+        adelantosButton.setText("Agregar Tareas");
         adelantosButton.setColorHover(new java.awt.Color(204, 204, 204));
         adelantosButton.setColorNormal(new java.awt.Color(239, 238, 244));
         adelantosButton.setColorPressed(new java.awt.Color(204, 204, 204));

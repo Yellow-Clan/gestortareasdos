@@ -359,7 +359,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("COMPRAS");
+        jLabel1.setText("Mis Tareas");
 
         buscarField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         buscarField.addActionListener(new java.awt.event.ActionListener() {
@@ -531,7 +531,6 @@ public class ComprasPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        fechaChooser.setDateFormatString("dd/MM/yyyy");
         fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         fechaChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -539,7 +538,6 @@ public class ComprasPanel extends javax.swing.JPanel {
             }
         });
 
-        fechaIniChooser.setDateFormatString("dd/MM/yyyy");
         fechaIniChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         fechaIniChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -846,7 +844,6 @@ public class ComprasPanel extends javax.swing.JPanel {
             }
         });
 
-        fecha.setDateFormatString("dd/MM/yyyy");
         fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -1304,57 +1301,6 @@ public class ComprasPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_myJListMouseClicked
 
-    private void aSIconButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aSIconButton1ActionPerformed
-        if (onza.getText().equals("") || porc.getText().equals("") || ley.getText().equals("") || sistema.getText().equals("") || tcambio.getText().equals("")) {
-            ErrorAlert er = new ErrorAlert(new JFrame(), true);
-            er.titulo.setText("OOPS...");
-            er.msj.setText("FALTAN LLENAR CAMPOS DE LOS PARÁMETROS");
-            er.msj1.setText("");
-            er.setVisible(true);
-        } else {
-            Parametro p = new Parametro();
-            p.setId(1);
-            p.setOnza(Double.parseDouble(onza.getText()));
-            p.setPorc(Double.parseDouble(porc.getText()));
-            p.setLey(Double.parseDouble(ley.getText()));
-            p.setSistema(Double.parseDouble(sistema.getText()));
-            p.setTcambio(Double.parseDouble(tcambio.getText()));
-
-            int opcion = ParametroData.actualizar(p);
-            if (opcion != 0) {
-                SuccessAlert sa = new SuccessAlert(new JFrame(), true);
-                sa.titulo.setText("¡HECHO!");
-                sa.msj.setText("SE HAN GUARDADO LOS CAMBIOS");
-                sa.msj1.setText("EN PARÁMETRO");
-                sa.setVisible(true);
-                paintParams(1);
-
-                if (!cant_gr.getText().equals("")) {
-                    try {
-                        if (moneda_soles.isSelected()) {
-                            precio.setText(precio_so.getText());
-                            double totalx = Math.round(Double.parseDouble(precio_so.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
-                            total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
-                        } else {
-                            precio.setText(precio_do.getText());
-                            double totalx = Math.round(Double.parseDouble(precio_do.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
-                            total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
-                            moneda_dolares.setSelected(true);
-                        }
-                    } catch (NumberFormatException nfe) {
-                        System.err.println("" + nfe);
-                    }
-                }
-                saldo_porpagar.setText("");
-                pagado.setText("");
-            }
-        }
-    }//GEN-LAST:event_aSIconButton1ActionPerformed
-
-    private void precio_soActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precio_soActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_precio_soActionPerformed
-
     private void saldo_porpagarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saldo_porpagarKeyReleased
         // TODO add your handling code here:
         saldo_porpagar_validate.setText("");
@@ -1427,6 +1373,57 @@ public class ComprasPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         paintTable(fechaIniChooser.getDate(), fechaChooser.getDate(), buscarField.getText());
     }//GEN-LAST:event_fechaIniChooserPropertyChange
+
+    private void precio_soActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precio_soActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_precio_soActionPerformed
+
+    private void aSIconButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aSIconButton1ActionPerformed
+        if (onza.getText().equals("") || porc.getText().equals("") || ley.getText().equals("") || sistema.getText().equals("") || tcambio.getText().equals("")) {
+            ErrorAlert er = new ErrorAlert(new JFrame(), true);
+            er.titulo.setText("OOPS...");
+            er.msj.setText("FALTAN LLENAR CAMPOS DE LOS PARÁMETROS");
+            er.msj1.setText("");
+            er.setVisible(true);
+        } else {
+            Parametro p = new Parametro();
+            p.setId(1);
+            p.setOnza(Double.parseDouble(onza.getText()));
+            p.setPorc(Double.parseDouble(porc.getText()));
+            p.setLey(Double.parseDouble(ley.getText()));
+            p.setSistema(Double.parseDouble(sistema.getText()));
+            p.setTcambio(Double.parseDouble(tcambio.getText()));
+
+            int opcion = ParametroData.actualizar(p);
+            if (opcion != 0) {
+                SuccessAlert sa = new SuccessAlert(new JFrame(), true);
+                sa.titulo.setText("¡HECHO!");
+                sa.msj.setText("SE HAN GUARDADO LOS CAMBIOS");
+                sa.msj1.setText("EN PARÁMETRO");
+                sa.setVisible(true);
+                paintParams(1);
+
+                if (!cant_gr.getText().equals("")) {
+                    try {
+                        if (moneda_soles.isSelected()) {
+                            precio.setText(precio_so.getText());
+                            double totalx = Math.round(Double.parseDouble(precio_so.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
+                            total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
+                        } else {
+                            precio.setText(precio_do.getText());
+                            double totalx = Math.round(Double.parseDouble(precio_do.getText()) * Double.parseDouble(cant_gr.getText().replaceAll(",", "")) * 100.0) / 100.0;
+                            total.setText(new DecimalFormat(Config.DEFAULT_DECIMAL_STRING_FORMAT).format(totalx));
+                            moneda_dolares.setSelected(true);
+                        }
+                    } catch (NumberFormatException nfe) {
+                        System.err.println("" + nfe);
+                    }
+                }
+                saldo_porpagar.setText("");
+                pagado.setText("");
+            }
+        }
+    }//GEN-LAST:event_aSIconButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

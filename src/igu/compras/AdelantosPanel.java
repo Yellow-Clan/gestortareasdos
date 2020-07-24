@@ -306,7 +306,6 @@ public class AdelantosPanel extends javax.swing.JPanel {
         jLabel4.setText("Buscar.");
         jLabel4.setToolTipText("");
 
-        fechaChooser.setDateFormatString("dd/MM/yyyy");
         fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         fechaChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -314,7 +313,6 @@ public class AdelantosPanel extends javax.swing.JPanel {
             }
         });
 
-        fechaIniChooser.setDateFormatString("dd/MM/yyyy");
         fechaIniChooser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         fechaIniChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -579,7 +577,7 @@ public class AdelantosPanel extends javax.swing.JPanel {
         glosa.setColumns(20);
         glosa.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         glosa.setRows(5);
-        glosa.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        glosa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane3.setViewportView(glosa);
 
         saldo_do.setEditable(false);
@@ -592,7 +590,6 @@ public class AdelantosPanel extends javax.swing.JPanel {
 
         jLabel3.setText("\"dd/MM/yyyy\"");
 
-        fecha.setDateFormatString("dd/MM/yyyy");
         fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
