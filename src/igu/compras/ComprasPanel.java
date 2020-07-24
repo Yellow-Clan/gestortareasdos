@@ -359,7 +359,7 @@ public class ComprasPanel extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("COMPRAS");
+        jLabel1.setText("Mis Tareas");
 
         buscarField.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         buscarField.addActionListener(new java.awt.event.ActionListener() {
@@ -531,7 +531,6 @@ public class ComprasPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        fechaChooser.setDateFormatString("dd/MM/yyyy");
         fechaChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         fechaChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -539,7 +538,6 @@ public class ComprasPanel extends javax.swing.JPanel {
             }
         });
 
-        fechaIniChooser.setDateFormatString("dd/MM/yyyy");
         fechaIniChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         fechaIniChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -846,7 +844,6 @@ public class ComprasPanel extends javax.swing.JPanel {
             }
         });
 
-        fecha.setDateFormatString("dd/MM/yyyy");
         fecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
