@@ -14,7 +14,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 /**
  *
- * @author Asullom
+ * @author Yellow C
  */
 public class App {
     private static File archivo = new File("db2.db");
